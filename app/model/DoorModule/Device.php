@@ -3,12 +3,13 @@
 namespace Doornock\Model\DoorModule;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doornock\Model\UserModule\User;
 
 /**
  * Devices
  *
  * @ORM\Table(name="devices", indexes={@ORM\Index(name="user_id", columns={"owner_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Doornock\Model\DoorModule\DeviceRepository")
  */
 class Device
 {
@@ -96,6 +97,9 @@ class Device
 	 */
 	public function __construct(User $owner)
 	{
+		if ($owner === NULL) {
+			throw new NullUserException;
+		}
 		$this->owner = $owner;
 	}
 
@@ -110,6 +114,7 @@ class Device
 
 
 	/**
+	 * Unique API key
 	 * @return string
 	 */
 	public function getApiKey()
@@ -119,6 +124,7 @@ class Device
 
 
 	/**
+	 * Description of device to user's read
 	 * @return string
 	 */
 	public function getDescription()
@@ -128,11 +134,32 @@ class Device
 
 
 	/**
+	 * RSA public key encoded in base64
 	 * @return string
 	 */
 	public function getPublicKey()
 	{
 		return $this->publicKey;
+	}
+
+
+	/**
+	 * Set a description of device
+	 * @param string $description
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
+	}
+
+
+	/**
+	 * Change API key by API generator
+	 * @param ApiKeyGenerator $generator
+	 */
+	public function changeApiKey(ApiKeyGenerator $generator)
+	{
+		$this->apiKey = $generator->generateApiKey();
 	}
 
 

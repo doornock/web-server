@@ -58,6 +58,7 @@ class UserManager
 
 	/**
 	 * Generate user credentials and persist them
+	 * @todo move to separate class with configuration
 	 * @return array [entity instance of User, password => generated password]
 	 */
 	public function registerRandomCredentials()

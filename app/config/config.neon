@@ -22,10 +22,10 @@ doctrine:
     password:
     dbname: doornock
     metadata:
-        Doornock: %appDir%
+        Doornock: %appDir%/model
 
 application:
-	errorPresenter: Error
+	errorPresenter: Front:Error
 	mapping:
 		*: Doornock\*Module\Presenters\*Presenter
 di:
@@ -36,8 +36,15 @@ session:
 
 
 services:
-	- Doornock\Model\UserManager
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
+
+	- Doornock\Model\UserManager
 	- Doornock\Model\UserModule\Authenticator
 	- Doornock\Model\UserModule\UserRepository
+
+	- Doornock\Model\DoorModule\DeviceRepository
+	- Doornock\Model\DoorModule\DeviceManager
+
+	- Doornock\Model\DoorModule\NodeRepository
+	- Doornock\Model\DoorModule\NodeManager
