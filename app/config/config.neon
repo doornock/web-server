@@ -1,0 +1,43 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+parameters:
+
+
+
+php:
+	date.timezone: Europe/Prague
+
+extensions:
+    doctrine2identity: Majkl578\NetteAddons\Doctrine2Identity\DI\IdentityExtension
+    console: Kdyby\Console\DI\ConsoleExtension
+    events: Kdyby\Events\DI\EventsExtension
+    annotations: Kdyby\Annotations\DI\AnnotationsExtension
+    doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+
+doctrine:
+    user: root
+    password:
+    dbname: doornock
+    metadata:
+        Doornock: %appDir%
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: Doornock\*Module\Presenters\*Presenter
+di:
+	debugger: true
+
+session:
+	expiration: 14 days
+
+
+services:
+	- Doornock\Model\UserManager
+	- Doornock\Forms\SignFormFactory
+	router: Doornock\RouterFactory::createRouter
+	- Doornock\Model\UserModule\Authenticator
+	- Doornock\Model\UserModule\UserRepository

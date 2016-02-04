@@ -1,0 +1,8 @@
+{block content}
+
+{if $user->isLoggedIn()}
+	{$user->identity->username}
+	<a n:href="Sign:out">Sign out</a>
+{else}
+	<a n:href="Sign:in">Log in</a>
+{/if}

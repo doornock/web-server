@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>{ifset title}{include title|striptags} | {/ifset}Doornock</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="{$basePath}/assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$basePath}/assets/AdminLTE/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="{$basePath}/assets/AdminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="{$basePath}/assets/font-awesome/css/font-awesome.min.css">
+	<link rel="shortcut icon" href="{$basePath}/assets/app/images/favicon.ico">
+	{block head}{/block}
+</head>
+<!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
+<body class="hold-transition skin-blue layout-boxed sidebar-mini">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+	<header class="main-header">
+		<!-- Logo -->
+		<a href="../../index2.html" class="logo">
+			<!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><img src="{$basePath}/assets/app/images/Login-Door.png" width="25px" alt="o" /></span>
+			<!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><img src="{$basePath}/assets/app/images/Login-Door.png" width="25px" alt="o" /> <b>Door</b>nock</span>
+		</a>
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top" role="navigation">
+			<!-- Sidebar toggle button-->
+			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+			</a>
+			<!-- /.search form -->
+
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- Messages: style can be found in dropdown.less-->
+					{include _snippets/messages.latte}
+					<!-- Notifications: style can be found in dropdown.less -->
+					{include _snippets/tasks.latte}
+					<!-- Tasks: style can be found in dropdown.less -->
+					{include _snippets/tasks.latte}
+					<!-- User Account: style can be found in dropdown.less -->
+					{include _snippets/user.latte}
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<!-- =============================================== -->
+
+	<!-- Left side column. contains the sidebar -->
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="header">Navigation</li>
+				<li class="treeview active">
+					<a href="#">
+						<i class="fa fa-files-o"></i>
+						<span>Layout Options</span>
+						<span class="label label-primary pull-right">4</span>
+					</a>
+					<ul class="treeview-menu">
+						<li><a href="top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
+						<li class="active"><a href="boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
+						<li><a href="fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
+						<li><a href="collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+
+	<!-- =============================================== -->
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		{include content}
+	</div><!-- /.content-wrapper -->
+
+
+	<!-- Control Sidebar -->
+	<!-- Add the sidebar's background. This div must be placed
+		   immediately after the control sidebar -->
+	<div class="control-sidebar-bg"></div>
+</div><!-- ./wrapper -->
+
+<script src="{$basePath}/assets/jQuery/js/jQuery-2.1.4.min.js"></script>
+<script src="{$basePath}/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="{$basePath}/assets/AdminLTE/js/app.min.js"></script>
+</body>
+</html>

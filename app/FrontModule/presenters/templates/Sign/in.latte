@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Doornock | Log in</title>
+
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="{$basePath}/assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{$basePath}/assets/AdminLTE/css/AdminLTE.min.css">
+	<link rel="shortcut icon" href="{$basePath}/assets/app/images/favicon.ico">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+	<div class="login-logo">
+
+		<a href="{link this}"><b>Door</b>n<img src="{$basePath}/assets/app/images/Login-Door.png" width="20px" alt="o" />ck</a>
+	</div><!-- /.login-logo -->
+	<div class="login-box-body">
+		<p class="login-box-msg">Sign in to start your session</p>
+		{form signInForm}
+			{foreach $form->getErrors() as $error}
+				<div class="alert alert-danger">{$error}</div>
+			{/foreach}
+
+			<div class="form-group has-feedback">
+				<input n:name="username" type="text" class="form-control" placeholder="User name">
+				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<input n:name="password" type="password" class="form-control" placeholder="Password">
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>
+			<div class="row">
+				<div class="col-xs-8">
+					<div class="form-group has-feedback">
+						{input remember}
+					</div>
+				</div><!-- /.col -->
+				<div class="col-xs-4">
+					<button n:name="send" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+				</div><!-- /.col -->
+			</div>
+		{/form}
+
+		<div class="social-auth-links text-center">
+			<p>- OR -</p>
+		</div><!-- /.social-auth-links -->
+
+		<a href="#">I forgot my password</a><br>
+		<a href="register.html" class="text-center">Register a new membership</a>
+
+	</div><!-- /.login-box-body -->
+</div><!-- /.login-box -->
+
+<script src="{$basePath}/assets/jQuery/js/jQuery-2.1.4.min.js"></script>
+<script src="{$basePath}/assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
