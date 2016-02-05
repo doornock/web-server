@@ -48,7 +48,7 @@ class Device
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="type", type="enum", nullable=true)
+	 * @ORM\Column(name="type", type="string", nullable=true)
 	 */
 	private $type;
 
