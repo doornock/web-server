@@ -10,19 +10,20 @@ php:
 	date.timezone: Europe/Prague
 
 extensions:
-    doctrine2identity: Majkl578\NetteAddons\Doctrine2Identity\DI\IdentityExtension
-    console: Kdyby\Console\DI\ConsoleExtension
-    events: Kdyby\Events\DI\EventsExtension
-    annotations: Kdyby\Annotations\DI\AnnotationsExtension
-    doctrine: Kdyby\Doctrine\DI\OrmExtension
+	doctrine2identity: Majkl578\NetteAddons\Doctrine2Identity\DI\IdentityExtension
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
 
 
 doctrine:
-    user: root
-    password:
-    dbname: doornock
-    metadata:
-        Doornock: %appDir%/model
+	user: root
+	password:
+	dbname: doornock2
+	driver: pdo_mysql
+	metadata:
+		Doornock: %appDir%/model
 
 application:
 	errorPresenter: Front:Error

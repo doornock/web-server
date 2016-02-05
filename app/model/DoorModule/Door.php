@@ -15,13 +15,14 @@ class Door
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="id", type="string", length=100, nullable=false)
+	 * @ORM\Column(name="id", type="string", length=100, nullable=false, options={"comment":"defined by node"})
 	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 */
 	private $id;
 
 	/**
+	 * Where is door connected
+	 *
 	 * @var Node
 	 *
 	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Node")

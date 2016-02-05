@@ -49,7 +49,7 @@ class User implements IIdentity
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="role", type="string", nullable=true)
+	 * @ORM\Column(name="role", type="enum", columnDefinition="enum('user','administrator','blocked')", nullable=true)
 	 */
 	private $role;
 

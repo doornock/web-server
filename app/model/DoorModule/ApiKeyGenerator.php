@@ -6,7 +6,8 @@ namespace Doornock\Model\DoorModule;
 interface ApiKeyGenerator
 {
 	/**
-	 * @return mixed
+	 * Generates API key
+	 * @return string
 	 */
 	function generateApiKey();
 }

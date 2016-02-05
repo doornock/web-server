@@ -32,14 +32,14 @@ class Device
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="api_key", type="string", length=255, unique=true, nullable=false)
+	 * @ORM\Column(name="api_key", type="string", length=255, unique=true, nullable=false, options={"comment":"api key, unique for registred device"})
 	 */
 	private $apiKey;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="description", type="text", length=2000, nullable=true)
+	 * @ORM\Column(name="description", type="text", length=2000, nullable=true, options={"comment":"users description of device"})
 	 */
 	private $description;
 
@@ -48,7 +48,7 @@ class Device
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="type", type="string", nullable=true)
+	 * @ORM\Column(name="type", type="enum", nullable=true, columnDefinition="enum('UID','RSA_KEY')", options={"comment":"how is device authenticated"})
 	 */
 	private $type;
 
@@ -57,7 +57,7 @@ class Device
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="private_key", type="text", nullable=true)
+	 * @ORM\Column(name="private_key", type="text", nullable=true, options={"comment":"private key of RSA, pure optinal; in base64"})
 	 */
 	private $privateKey;
 
@@ -66,7 +66,7 @@ class Device
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="public_key", type="text", nullable=true)
+	 * @ORM\Column(name="public_key", type="text", nullable=true, options={"comment":"public key of RSA; if type column = RSA_KEY should to be filled"})
 	 */
 	private $publicKey;
 
@@ -75,7 +75,7 @@ class Device
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="uid", type="string", length=20, nullable=true)
+	 * @ORM\Column(name="uid", type="string", length=20, nullable=true, options={"comment":"UID of device; if type column = UID should be filled"})
 	 */
 	private $uid;
 
@@ -86,7 +86,7 @@ class Device
 	 *
 	 * @ORM\ManyToOne(targetEntity="Doornock\Model\UserModule\User")
 	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+	 *   @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
 	 * })
 	 */
 	private $owner;
