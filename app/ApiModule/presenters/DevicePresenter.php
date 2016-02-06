@@ -3,9 +3,8 @@
 namespace Doornock\ApiModule\Presenters;
 
 use Doornock\Model\DoorModule\Device;
-use Doornock\Model\DoorModule\DeviceManager;
+use Doornock\Model\DoorModule\DeviceAccessManager;
 use Doornock\Model\DoorModule\DeviceRepository;
-use Doornock\Model\UserManager;
 use Doornock\Model\UserModule\User;
 use Doornock\Model\UserModule\UserRepository;
 use Nette;
@@ -15,16 +14,32 @@ class DevicePresenter extends BasePresenter
 {
 
 	/** @var DeviceRepository */
-	public $deviceRepository;
+	private $deviceRepository;
 
 
-	/** @var DeviceManager */
-	public $deviceManager;
+	/** @var DeviceAccessManager */
+	private $deviceManager;
 
 
 	/** @var UserRepository */
-	public $userRepository;
+	private $userRepository;
 
+	/**
+	 * DevicePresenter constructor.
+	 * @param DeviceRepository $deviceRepository
+	 * @param DeviceAccessManager $deviceManager
+	 * @param UserRepository $userRepository
+	 */
+	public function __construct(
+		DeviceRepository $deviceRepository,
+		DeviceAccessManager $deviceManager,
+		UserRepository $userRepository
+	)
+	{
+		$this->deviceRepository = $deviceRepository;
+		$this->deviceManager = $deviceManager;
+		$this->userRepository = $userRepository;
+	}
 
 
 	/**
@@ -47,12 +62,14 @@ class DevicePresenter extends BasePresenter
 	 * @param string $username
 	 * @param string $password
 	 */
-	public function actionRegisterDevice($username, $password)
+	public function actionRegister($username, $password)
 	{
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
 
-		$user = $this->userRepository->find($username); /** @var $user User */
+		$user = $this->userRepository->findOneBy(array(
+			'username' => $username
+		)); /** @var $user User */
 		if (!$user || !$user->verifyPassword($password)) {
 			$this->sendRequestError(401, "Bad username or password");
 		}
@@ -66,7 +83,13 @@ class DevicePresenter extends BasePresenter
 
 	}
 
-	public function actionUpdateDevice($api_key)
+
+	/**
+	 * Method update information about device
+	 * @param $api_key
+	 * @throws \Doornock\Model\DoorModule\ApiKeyNotFoundException
+	 */
+	public function actionUpdate($api_key)
 	{
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
@@ -74,31 +97,6 @@ class DevicePresenter extends BasePresenter
 		$this->deviceManager->updateRSAKeyDeviceByApi($api_key, $publicKey);
 
 		$this->sendSuccess();
-	}
-
-
-	/** @todo */
-	public function actionDoorsList($api_key)
-	{
-		$doors = array();
-		for ($i = 0; $i < 5; $i++) {
-			$obj = new \stdClass();
-			$obj->id = $i;
-			$obj->title = "Dveře" . $i;
-			$obj->access = true;
-			$doors[] = $obj;
-
-		}
-
-		$this->sendSuccess($doors);
-	}
-
-
-	/** @todo */
-	public function actionOpenDoor($api_key, $door_id)
-	{
-		file_put_contents("A.txt", "YES:" . $api_key . ":" . $door_id);
-		$this->sendSuccess(array("Doors opened :D"));
 	}
 
 

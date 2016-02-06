@@ -15,9 +15,10 @@ class Router extends RouteList
 	{
 		parent::__construct("Api");
 
-		$this[] = new Route("v1/device/<action>", "Device:");
-		$this[] = new Route("v1/site/<action>", "Site:");
-		$this[] = new Route("v1/user/<action>", "User:");
+		$this[] = new Route("api/v1/device/<action>", "Device:");
+		$this[] = new Route("api/v1/site/<action>", "Site:");
+		$this[] = new Route("api/v1/user/<action>", "User:");
+		$this[] = new Route("api/v1/door/<action>", "Door:");
 	}
 
 }

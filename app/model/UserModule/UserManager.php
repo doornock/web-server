@@ -65,7 +65,7 @@ class UserManager
 	{
 		do {
 			$username = Nette\Utils\Random::generate(10);
-			$password = Nette\Utils\Random::generate(100);
+			$password = Nette\Utils\Random::generate(10);
 
 			$alreadyExist = (bool) $this->userRepository->countBy(array(
 				'username' => $username

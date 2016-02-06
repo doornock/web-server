@@ -20,7 +20,7 @@ extensions:
 doctrine:
 	user: root
 	password:
-	dbname: doornock2
+	dbname: doornock
 	driver: pdo_mysql
 	metadata:
 		Doornock: %appDir%/model
@@ -40,12 +40,12 @@ services:
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 
-	- Doornock\Model\UserManager
 	- Doornock\Model\UserModule\Authenticator
+	- Doornock\Model\UserModule\UserManager
 	- Doornock\Model\UserModule\UserRepository
 
 	- Doornock\Model\DoorModule\DeviceRepository
-	- Doornock\Model\DoorModule\DeviceManager
+	- Doornock\Model\DoorModule\DeviceAccessManager
 
 	- Doornock\Model\DoorModule\NodeRepository
 	- Doornock\Model\DoorModule\NodeManager

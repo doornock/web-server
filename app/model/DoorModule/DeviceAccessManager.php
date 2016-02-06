@@ -8,11 +8,14 @@ use Doornock\Model\UserModule\User;
 use Nette;
 
 
-class DeviceManager implements ApiKeyGenerator
+class DeviceAccessManager implements ApiKeyGenerator
 {
 
 	/** @var DeviceRepository */
 	private $deviceRepository;
+
+	/** @var DoorRepository */
+	private $doorRepository;
 
 
 	/** @var EntityManager */
@@ -22,14 +25,17 @@ class DeviceManager implements ApiKeyGenerator
 	/**
 	 * User manager constructor.
 	 * @param DeviceRepository $deviceRepository
+	 * @param DoorRepository $doorRepository look up doors with access
 	 * @param EntityManager $entityManager To propagate new device
 	 */
 	public function __construct(
 		DeviceRepository $deviceRepository,
+		DoorRepository $doorRepository,
 		EntityManager $entityManager
 	)
 	{
 		$this->deviceRepository = $deviceRepository;
+		$this->doorRepository = $doorRepository;
 		$this->entityManager = $entityManager;
 	}
 
@@ -39,6 +45,7 @@ class DeviceManager implements ApiKeyGenerator
 	 * @param User $owner
 	 * @param string $publicKey public RSA key encoded in base64
 	 * @param string $description description
+	 * @return Device
 	 */
 	public function addDeviceRSA(User $owner, $publicKey, $description)
 	{
@@ -94,6 +101,5 @@ class DeviceManager implements ApiKeyGenerator
 		} while ($exists);
 		return $apiKey;
 	}
-
 
 }

@@ -10,7 +10,16 @@ class UserPresenter extends BasePresenter
 {
 
 	/** @var UserManager */
-	public $userManager;
+	private $userManager;
+
+	/**
+	 * UserPresenter constructor.
+	 * @param UserManager $userManager
+	 */
+	public function __construct(UserManager $userManager)
+	{
+		$this->userManager = $userManager;
+	}
 
 
 	public function actionRegisterRandom()

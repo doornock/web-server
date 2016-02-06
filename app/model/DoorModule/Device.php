@@ -192,7 +192,7 @@ class Device
 	 * @param String $type
 	 */
 	private function setType($type) {
-		if (self::checkType($type)) {
+		if (!self::checkType($type)) {
 			throw new \InvalidArgumentException(sprintf(
 				"Entity %s does NOT accept this type of authentication", get_class($this)
 			));
@@ -224,4 +224,3 @@ class Device
 	}
 
 }
-
