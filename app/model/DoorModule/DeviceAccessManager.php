@@ -8,6 +8,9 @@ use Doornock\Model\UserModule\User;
 use Nette;
 
 
+/**
+ * Service layer communicates with devices
+ */
 class DeviceAccessManager implements ApiKeyGenerator
 {
 
@@ -70,14 +73,7 @@ class DeviceAccessManager implements ApiKeyGenerator
 	 */
 	public function updateRSAKeyDeviceByApi($apiKey, $publicKey, $privateKey = NULL)
 	{
-		$device = $this->deviceRepository->findOneBy(array(
-			"apiKey" => $apiKey
-		)); /** @var $device Device */
-
-		if (!$device) {
-			throw new ApiKeyNotFoundException($apiKey);
-		}
-
+		$device = $this->getDeviceByApiKey($apiKey);
 		$device->changeRSAKeys($publicKey, $privateKey);
 
 		$this->entityManager->flush();
@@ -100,6 +96,56 @@ class DeviceAccessManager implements ApiKeyGenerator
 			));
 		} while ($exists);
 		return $apiKey;
+	}
+
+
+	/**
+	 * Find doors which has device access
+	 * @return Door[]
+	 * @throws ApiKeyNotFoundException if api key is not found
+	 */
+	public function findDoorWithAccess($apiKey)
+	{
+		$device = $this->getDeviceByApiKey($apiKey);
+
+		$q = new AccessDoorQuery();
+		$q->setUser($device->getOwner());
+
+		return $this->doorRepository->fetch($q);
+	}
+
+
+	/**
+	 * Open door
+	 * @param string $apiKey device api key
+	 * @param string $doorId
+	 * @throws @todo Exception about no access
+	 */
+	public function openDoor($apiKey, $doorId)
+	{
+		$device = $this->getDeviceByApiKey($apiKey);
+
+		throw new Nette\NotImplementedException;
+	}
+
+
+	/**
+	 * Find device by API key, or throws exception
+	 * @param string $apiKey
+	 * @return Device
+	 * @throws ApiKeyNotFoundException
+	 */
+	private function getDeviceByApiKey($apiKey)
+	{
+		$device = $this->deviceRepository->findOneBy(array(
+			"apiKey" => $apiKey
+		)); /** @var $device Device */
+
+		if (!$device) {
+			throw new ApiKeyNotFoundException($apiKey);
+		}
+
+		return $device;
 	}
 
 }
