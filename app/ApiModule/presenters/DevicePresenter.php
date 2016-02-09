@@ -36,6 +36,7 @@ class DevicePresenter extends BasePresenter
 		UserRepository $userRepository
 	)
 	{
+		parent::__construct();
 		$this->deviceRepository = $deviceRepository;
 		$this->deviceManager = $deviceManager;
 		$this->userRepository = $userRepository;

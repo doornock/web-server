@@ -18,6 +18,7 @@ class UserPresenter extends BasePresenter
 	 */
 	public function __construct(UserManager $userManager)
 	{
+		parent::__construct();
 		$this->userManager = $userManager;
 	}
 
@@ -25,13 +26,10 @@ class UserPresenter extends BasePresenter
 	public function actionRegisterRandom()
 	{
 		$data = $this->userManager->registerRandomCredentials();
-		$this->sendResponse(new Nette\Application\Responses\JsonResponse(array(
-			'status' => "OK",
-			'data' => array(
-				'username' => $data['entity']->getUsername(),
-				'password' => $data['password']
-			)
-		)));
+		$this->sendSuccess(array(
+			'username' => $data['entity']->getUsername(),
+			'password' => $data['password']
+		));
 	}
 
 }

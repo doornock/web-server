@@ -49,3 +49,5 @@ services:
 
 	- Doornock\Model\DoorModule\NodeRepository
 	- Doornock\Model\DoorModule\NodeManager
+
+	- Doornock\Model\DoorModule\DoorRepository

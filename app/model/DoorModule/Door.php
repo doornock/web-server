@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Doors
  *
  * @ORM\Table(name="doors", indexes={@ORM\Index(name="node_id", columns={"node_id"})})
- * @ORM\Entity(repositoryName="Doornock\Model\DoorModule\DoorRepository")
+ * @ORM\Entity(repositoryClass="Doornock\Model\DoorModule\DoorRepository")
  */
 class Door
 {
