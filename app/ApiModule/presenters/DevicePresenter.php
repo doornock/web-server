@@ -67,9 +67,7 @@ class DevicePresenter extends BasePresenter
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
 
-		$user = $this->userRepository->findOneBy(array(
-			'username' => $username
-		)); /** @var $user User */
+		$user = $this->userRepository->getByUsername($username);
 		if (!$user || !$user->verifyPassword($password)) {
 			$this->sendRequestError(401, "Bad username or password");
 		}

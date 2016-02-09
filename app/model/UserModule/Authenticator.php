@@ -32,10 +32,7 @@ class Authenticator implements IAuthenticator
 	{
 		list($username, $password) = $credentials;
 
-		$user = $this->userRepository->findOneBy(array(
-			'username' => $username
-		)); /** @var $user User */
-
+		$user = $this->userRepository->getByUsername($username);
 		if ($user === NULL) {
 			throw new Nette\Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
 		}
