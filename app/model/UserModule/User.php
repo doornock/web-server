@@ -53,30 +53,11 @@ class User implements IIdentity
 	 */
 	private $role;
 
-/*
-	/**
-	 * @var \Doctrine\Common\Collections\Collection
-	 *
-	 * @ORM\ManyToMany(targetEntity="Doornock\Model\Entities\Door", mappedBy="user")
-	 * @ORM\JoinTable(name="doors_acl",
-	 *   joinColumns={
-	 *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-	 *   },
-	 *   inverseJoinColumns={
-	 *     @ORM\JoinColumn(name="door_id", referencedColumnName="id")
-	 *   }
-	 * )
-	 * /
-	private $doorWithAccess;
-*/
-
-
 	/**
 	 * Constructor
 	 */
 	public function __construct($username)
 	{
-		$this->doorWithAccess = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->username = $username;
 	}
 

@@ -111,7 +111,7 @@ class DeviceAccessManager implements ApiKeyGenerator
 		$q = new AccessDoorQuery();
 		$q->setUser($device->getOwner());
 
-		return $this->doorRepository->fetch($q);
+		return $this->doorRepository->fetch($q)->toArray();
 	}
 
 

@@ -13,6 +13,17 @@ class DoorPresenter extends BasePresenter
 	/** @var DeviceAccessManager */
 	private $deviceManager;
 
+	/**
+	 * DoorPresenter constructor.
+	 * @param DeviceAccessManager $deviceManager
+	 */
+	public function __construct(DeviceAccessManager $deviceManager)
+	{
+		parent::__construct();
+		$this->deviceManager = $deviceManager;
+	}
+
+
 	public function actionList($api_key)
 	{
 		$doors = $this->deviceManager->findDoorWithAccess($api_key);

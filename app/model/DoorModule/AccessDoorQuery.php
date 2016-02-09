@@ -59,11 +59,14 @@ class AccessDoorQuery extends QueryObject
 
 		return $q->createQueryBuilder()
 			->from(Door::class, 'd')
-			->leftJoin(UserAccess::class, 'ua')
-			->where('ua.enable = :enable')
-			->where('ua.user = :user')
-			->set('enable', TRUE)
-			->set('user', $this->user);
+			->leftJoin(UserAccess::class, 'ua', 'WITH', 'd = ua.door')
+			->leftJoin(User::class, 'u', 'WITH', 'u = ua.user')
+			->where('ua.access = :access')
+			->andWhere('u = :user')
+			->andWhere('u.role != :blocked')
+			->setParameter('blocked', 'blocked')
+			->setParameter('access', TRUE)
+			->setParameter('user', $this->user);
 	}
 
 }
