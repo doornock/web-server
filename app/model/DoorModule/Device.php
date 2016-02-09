@@ -92,6 +92,14 @@ class Device
 	private $owner;
 
 	/**
+	 * Is device blocked (true) or available to authenticate (false)?
+	 * @var boolean
+	 */
+	private $blocked;
+
+
+
+	/**
 	 * Device constructor.
 	 * @param User $owner
 	 */
@@ -140,6 +148,26 @@ class Device
 	public function getPublicKey()
 	{
 		return $this->publicKey;
+	}
+
+
+	/**
+	 * Owner of this device
+	 * @return User
+	 */
+	public function getOwner()
+	{
+		return $this->owner;
+	}
+
+
+	/**
+	 * Is device blocked (true) or available to authenticate (false)?
+	 * @return boolean
+	 */
+	public function isBlocked()
+	{
+		return $this->blocked;
 	}
 
 

@@ -3,6 +3,7 @@
 namespace Doornock\Model\DoorModule;
 
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Strings;
 
 /**
  * Doors
@@ -13,12 +14,25 @@ use Doctrine\ORM\Mapping as ORM;
 class Door
 {
 	/**
-	 * @var string
+	 * Universal identification of doors
 	 *
-	 * @ORM\Column(name="id", type="string", length=100, nullable=false, options={"comment":"defined by node"})
+	 * @var int
+	 *
+	 * @ORM\Column(name="id", type="integer", nullable=false)
 	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
 	 */
 	private $id;
+
+
+	/**
+	 * Defined string to identify doors on node
+	 * Don't use to identify door
+	 *
+	 * @var string
+	 * @ORM\Column(name="code", type="string", length=100, nullable=false)
+	 */
+	private $code;
 
 
 	/**
@@ -26,7 +40,7 @@ class Door
 	 *
 	 * @var Node
 	 *
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Node")
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Node", inversedBy="doors")
 	 * @ORM\JoinColumns({
 	 *   @ORM\JoinColumn(name="node_id", referencedColumnName="id")
 	 * })
@@ -35,31 +49,124 @@ class Door
 
 
 	/**
+	 * Human readable name
+	 *
+	 * @ORM\Column(name="title", type="string", length=100)
+	 * @var string
+	 */
+	private $title;
+
+
+	/**
 	 * Opening time in milliseconds, it says how long a door will be unlocked after signal, default time is 3s
-	 * @ORM\Column(name="opening_time", type="int", nullable=false, options={"comment":"opening time in milliseconds"})
-	 * @var Door
+	 * @ORM\Column(name="opening_time", type="integer", nullable=false, options={"comment":"opening time in milliseconds"})
+	 * @var int
 	 */
 	private $openingTime = 3000;
 
 	/**
 	 * Door constructor.
-	 * @param Node $node
-	 * @param string $id
+	 * @param Node $node which node control door
+	 * @param string $code identifier on node
+	 * @param string|NULL $title human readable name
 	 */
-	public function __construct(Node $node, $id)
+	public function __construct(Node $node, $code, $title = NULL)
 	{
-		$this->node = $node;
-		$this->id = $id;
+		$this->changeNode($node, $code);
+		$this->title = $title;
+	}
+
+	/**
+	 * Return unique id for all doors
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Get control code in node
+	 * @return string
+	 */
+	public function getCode()
+	{
+		return $this->code;
+	}
+
+	/**
+	 * Node which control door
+	 * @return Node
+	 */
+	public function getNode()
+	{
+		return $this->node;
+	}
+
+	/**
+	 * Human readable name (eg. "Main house doors")
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+
+	/**
+	 * Opening time in milliseconds, it says how long a door will be unlocked after signal
+	 * @return int
+	 */
+	public function getOpeningTime()
+	{
+		return $this->openingTime;
 	}
 
 
 	/**
 	 * Opening time in milliseconds, it says how long a door will be unlocked after signal, default time is 3s
-	 * @param Door $openingTime
+	 * @param int $openingTime
 	 */
 	public function setDefaultOpeningTime($openingTime)
 	{
 		$this->openingTime = $openingTime;
+	}
+
+
+	/**
+	 * Change title for this door
+	 * @param string $title
+	 */
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	}
+
+
+	/**
+	 * Change node controlling this door
+	 * @param Node $node
+	 * @param string $code code name in new node
+	 */
+	public function changeNode(Node $node, $code)
+	{
+		if (self::validateCode($code)) {
+			throw new \InvalidArgumentException('Door id is not scalar string, or is not composed of [a-z0-9_]');
+		}
+
+		$this->node = $node;
+		$this->code = $code;
+	}
+
+
+	/**
+	 * Checks door code is valid
+	 * @param string $code
+	 * @return bool
+	 */
+	public static function validateCode($code)
+	{
+		return is_string($code) && Strings::match($code, "^[a-z0-9_]+$");
 	}
 
 }

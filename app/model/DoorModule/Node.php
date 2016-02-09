@@ -2,6 +2,7 @@
 
 namespace Doornock\Model\DoorModule;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,15 @@ class Node
 	 * @ORM\Column(name="available_nfc", type="boolean", nullable=false, options={"comment":"has NFC reader?"})
 	 */
 	private $availableNfc;
+
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Doornock\Model\DoorModule\Door", mappedBy="node")
+	 * @var Collection
+	 */
+	private $doors;
+
+
 
 	/**
 	 * @return int
@@ -95,6 +105,16 @@ class Node
 			throw new \InvalidArgumentException("Argument \$availableNfc must be bool, got " . gettype($availableNfc));
 		}
 		$this->availableNfc = $availableNfc;
+	}
+
+
+	/**
+	 * Returns attached door
+	 * @return array
+	 */
+	public function getDoors()
+	{
+		return $this->doors->getValues();
 	}
 
 
