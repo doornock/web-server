@@ -41,7 +41,7 @@ class UsernameNotFoundException extends \Exception
 
 
 	/**
-	 * UsernameAlreadyRegisteredException constructor.
+	 * UsernameNotFoundException constructor.
 	 * @param $username
 	 */
 	public function __construct($username, $code = 0, \Exception $previous = null)
@@ -51,7 +51,7 @@ class UsernameNotFoundException extends \Exception
 	}
 
 	/**
-	 * Existring username
+	 * Unknown username
 	 * @return string
 	 */
 	public function getUsername()
@@ -60,3 +60,12 @@ class UsernameNotFoundException extends \Exception
 	}
 
 }
+
+class MinimumCountAdministratorException extends \Exception
+{}
+
+class ChangeRoleOnSelfNotAllowedException extends \Exception
+{}
+
+class UnknownRoleException extends \InvalidArgumentException
+{}

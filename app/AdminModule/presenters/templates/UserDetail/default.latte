@@ -1,0 +1,76 @@
+{block title}Users{/block}
+{block content}
+
+<div class="col-md-8">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Users detail: {$selectedUser->getUsername()}</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			Username: {$selectedUser->getUsername()} <br>
+			In roles: {$selectedUser->getRoles()|implode:","}
+		</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+<div class="col-md-4">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Change password</h3>
+		</div>
+		{form changePasswordForm}
+			<div class="box-body">
+					{foreach $form->getOwnErrors() as $error}
+						{$error}
+					{/foreach}
+					<div class="form-group" n:if="$form->getComponent('password_actual', FALSE)">
+						{label password_actual /}
+						<p class="alert alert-warning" n:foreach="$form['password_actual']->getErrors() as $error">{$error}</p>
+						{input password_actual, class => "form-control"}
+					</div>
+					<div class="form-group">
+						{label password_new /}
+						<p class="alert alert-warning" n:foreach="$form['password_new']->getErrors() as $error">{$error}</p>
+						{input password_new, class => "form-control"}
+						<p class="help-block">Password must have 6 characters including one special character (eg. %,./!@)</p>
+					</div>
+					<div class="form-group">
+						{label password_repeat /}
+						<p class="alert alert-warning" n:foreach="$form['password_repeat']->getErrors() as $error">{$error}</p>
+						{input password_repeat, class => "form-control"}
+					</div>
+			</div>
+			<div class="box-footer">
+				{input send, class => "btn btn-info pull-right"}
+			</div>
+		{/form}
+		<hr>
+		{if $allowChangeRole}
+			<div class="box-header">
+				<h3 class="box-title">Change role</h3>
+			</div>
+			{form roleForm}
+				<div class="box-body">
+					{foreach $form->getOwnErrors() as $error}
+						{$error}
+					{/foreach}
+					<div class="form-group">
+						{label role /}
+						<p class="alert alert-warning" n:foreach="$form['role']->getErrors() as $error">{$error}</p>
+						{input role, class => "form-control"}
+					</div>
+				</div>
+				<div class="box-footer">
+					{input send, class => "btn btn-info pull-right"}
+				</div>
+			{/form}
+		{/if}
+	</div>
+</div>
+
+<div class="col-md-4">
+	<div class="box">
+
+	</div>
+</div>

@@ -31,15 +31,17 @@ class AddUserFormFactory extends Object
 	public function create()
 	{
 		$form = new Form();
+		$form->addProtection();
+
 		$form->addText('username', 'Username')
 			->addRule(Form::FILLED, 'Please fill username');
 
-		$form->addText('password', 'New password')
+		$form->addPassword('password', 'New password')
 			->addRule(Form::FILLED, 'Please fill password')
-			->addRule(Form::MIN_LENGTH, 'Password should be long %d characters at least', 5)
-			->addRule(~Form::PATTERN, 'Password should have one special characters (e.g. !%.,/)', '^[a-zA-Z0-9]*$');
+			->addRule(Form::MIN_LENGTH, 'Password must be long %d characters at least', 6)
+			->addRule(~Form::PATTERN, 'Password must has a one special characters (e.g. !%.,/)', '^[a-zA-Z0-9]*$');
 
-		$form->addText('password_repeat', 'Repeat new password')
+		$form->addPassword('password_repeat', 'Repeat password')
 			->addRule(Form::EQUAL, 'New password and repeated is not same', $form['password']);
 
 		$form->addSubmit('send', 'Add user');

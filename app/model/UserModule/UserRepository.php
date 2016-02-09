@@ -19,4 +19,16 @@ class UserRepository extends EntityDao
 			'username' => $username
 		));
 	}
+
+	/**
+	 * Find user by id, otherwise return null
+	 * @param int $id
+	 * @return User|null
+	 */
+	public function getById($id)
+	{
+		return $this->findOneBy(array(
+			'id' => $id
+		));
+	}
 }

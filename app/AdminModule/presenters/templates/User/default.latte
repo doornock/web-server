@@ -1,0 +1,49 @@
+{block title}Users{/block}
+{block content}
+
+<div class="col-md-8">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">List of users</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body no-padding">
+			{control grid}
+		</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+<div class="col-md-4">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Add new user</h3>
+		</div>
+		{form addForm}
+			<div class="box-body">
+					{foreach $form->getOwnErrors() as $error}
+						{$error}
+					{/foreach}
+					<div class="form-group">
+						{label username /}
+						<p class="alert alert-warning" n:foreach="$form['username']->getErrors() as $error">{$error}</p>
+						{input username, class => "form-control"}
+					</div>
+
+					<div class="form-group">
+						{label password /}
+						<p class="alert alert-warning" n:foreach="$form['password']->getErrors() as $error">{$error}</p>
+						{input password, class => "form-control"}
+						<p class="help-block">Password must have 6 characters including one special character (eg. %,./!@)</p>
+					</div>
+					<div class="form-group">
+						{label password_repeat /}
+						<p class="alert alert-warning" n:foreach="$form['password_repeat']->getErrors() as $error">{$error}</p>
+						{input password_repeat, class => "form-control"}
+					</div>
+			</div>
+			<div class="box-footer">
+				{input send, class => "btn btn-info pull-right"}
+			</div>
+		{/form}
+	</div>
+</div>

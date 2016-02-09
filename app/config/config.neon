@@ -34,12 +34,16 @@ di:
 
 session:
 	expiration: 14 days
-
+latte:
+    macros:
+        - Nextras\Latte\Macros\RedefineMacro::install
 
 services:
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 
+	- Doornock\Model\UserModule\PermissionStandard
+	- Doornock\Model\UserModule\Roles
 	- Doornock\Model\UserModule\Authenticator
 	- Doornock\Model\UserModule\UserManager
 	- Doornock\Model\UserModule\UserRepository
@@ -51,3 +55,8 @@ services:
 	- Doornock\Model\DoorModule\NodeManager
 
 	- Doornock\Model\DoorModule\DoorRepository
+
+	- Doornock\AdminModule\Forms\ChangeRoleFormFactory
+	- Doornock\AdminModule\Forms\ChangePasswordFormFactory
+	- Doornock\AdminModule\Forms\AddUserFormFactory
+	- Doornock\AdminModule\Components\UserGridFactory

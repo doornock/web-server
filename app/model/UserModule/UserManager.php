@@ -86,7 +86,7 @@ class UserManager
 
 	/**
 	 * Method changes user's password
-	 * @param string $username username if user to change
+	 * @param User|string $username username if user to change
 	 * @param string $newPassword new password to change
 	 * @param string|null $actualPassword if not null, checks actual password - see return
 	 * @return bool true if password was changed, false if actual password is not verified
@@ -108,6 +108,43 @@ class UserManager
 		$this->entityManager->flush($user);
 
 		return TRUE;
+	}
+
+
+	/**
+	 * @param User $user
+	 * @param $role
+	 * @param User|NULL $userBy
+	 * @throws ChangeRoleOnSelfNotAllowedException when user want change yourself
+	 * @throws MinimumCountAdministratorException when administrator try change
+	 */
+	public function changeRole(User $user, $role, User $userBy = NULL)
+	{
+		$admins = $this->userRepository->countBy(array(
+			'role' => Roles::ADMINISTRATOR
+		));
+
+		if ($user->getId() === $userBy->getId()) {
+			throw new ChangeRoleOnSelfNotAllowedException;
+		}
+
+		if (in_array(Roles::ADMINISTRATOR, $user->getRoles()) && $role !== Roles::ADMINISTRATOR && $admins === 1) {
+			throw new MinimumCountAdministratorException;
+		}
+
+		if ($role === Roles::ADMINISTRATOR) {
+			$user->mushroomUp();
+		} else if ($role === Roles::USER) {
+			$user->beNormal();
+		} else if ($role === Roles::BLOCKED) {
+			$user->block();
+		} else {
+			throw new UnknownRoleException();
+		}
+
+		$this->entityManager->flush($user);
+
+
 	}
 
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a094d4caded0d73168a0a0359f1200dd",
-    "content-hash": "ca2460e990a98e705c36eed04cfd2ce4",
+    "hash": "0d4dd5ffd30e9083d285b6e2ab23c6a7",
+    "content-hash": "8068a42830448dc36d48e5e243907285",
     "packages": [
         {
             "name": "Majkl578/nette-identity-doctrine",
@@ -24,22 +24,22 @@
         },
         {
             "name": "dg/adminer-custom",
-            "version": "v1.7.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/adminer-custom.git",
-                "reference": "404e52e004aa1e5ba7e4b33075ebd55ffc45c644"
+                "reference": "9866cc99392904ea99f139c41064cc81932e39aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/404e52e004aa1e5ba7e4b33075ebd55ffc45c644",
-                "reference": "404e52e004aa1e5ba7e4b33075ebd55ffc45c644",
+                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/9866cc99392904ea99f139c41064cc81932e39aa",
+                "reference": "9866cc99392904ea99f139c41064cc81932e39aa",
                 "shasum": ""
             },
             "type": "project",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Customization for the best database management tool written in PHP, Adminer",
-            "time": "2016-01-13 14:57:04"
+            "time": "2016-02-06 21:42:41"
         },
         {
             "name": "doctrine/annotations",
@@ -1207,16 +1207,16 @@
         },
         {
             "name": "nette/application",
-            "version": "v2.3.9",
+            "version": "v2.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/application.git",
-                "reference": "84d309df061306b7dc47c9d75ee9926b570b76a0"
+                "reference": "6f3447b5fcf4ae7f78fd90f354b5aba2a68c8f02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/application/zipball/84d309df061306b7dc47c9d75ee9926b570b76a0",
-                "reference": "84d309df061306b7dc47c9d75ee9926b570b76a0",
+                "url": "https://api.github.com/repos/nette/application/zipball/6f3447b5fcf4ae7f78fd90f354b5aba2a68c8f02",
+                "reference": "6f3447b5fcf4ae7f78fd90f354b5aba2a68c8f02",
                 "shasum": ""
             },
             "require": {
@@ -1265,7 +1265,7 @@
             ],
             "description": "Nette Application MVC Component",
             "homepage": "https://nette.org",
-            "time": "2016-01-20 03:00:00"
+            "time": "2016-02-07 17:39:57"
         },
         {
             "name": "nette/bootstrap",
@@ -2125,6 +2125,107 @@
             "time": "2015-11-30 00:11:35"
         },
         {
+            "name": "nextras/datagrid",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextras/datagrid.git",
+                "reference": "eff150dbfaf696f44e7e72c16cbe7b4c219e135c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextras/datagrid/zipball/eff150dbfaf696f44e7e72c16cbe7b4c219e135c",
+                "reference": "eff150dbfaf696f44e7e72c16cbe7b4c219e135c",
+                "shasum": ""
+            },
+            "require": {
+                "nette/application": "~2.2",
+                "nette/component-model": "~2.2",
+                "nette/utils": "~2.2",
+                "nextras/latte-macros": "~1.1.0",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nextras\\Datagrid\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Skrasek",
+                    "email": "hrach.cz@gmail.com",
+                    "homepage": "http://jan.skrasek.com"
+                }
+            ],
+            "description": "Datagrid component for Nette Framework.",
+            "keywords": [
+                "datagrid",
+                "nette",
+                "nextras"
+            ],
+            "time": "2015-07-23 12:44:36"
+        },
+        {
+            "name": "nextras/latte-macros",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextras/latte-macros.git",
+                "reference": "3dba13fe4ae2c4b3f28009fb969224b28fb6c183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextras/latte-macros/zipball/3dba13fe4ae2c4b3f28009fb969224b28fb6c183",
+                "reference": "3dba13fe4ae2c4b3f28009fb969224b28fb6c183",
+                "shasum": ""
+            },
+            "require": {
+                "latte/latte": "~2.2",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nextras\\Latte\\Macros\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Skrasek",
+                    "email": "hrach.cz@gmail.com",
+                    "homepage": "http://jan.skrasek.com"
+                }
+            ],
+            "description": "Latte macros for Nette Framework.",
+            "keywords": [
+                "block-macros",
+                "latte",
+                "macros",
+                "nette",
+                "nextras"
+            ],
+            "time": "2015-06-21 16:22:22"
+        },
+        {
             "name": "symfony/console",
             "version": "v2.8.2",
             "source": {
@@ -2357,16 +2458,16 @@
     "packages-dev": [
         {
             "name": "nette/tester",
-            "version": "v1.6.1",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tester.git",
-                "reference": "b0f312e7ab9a70bbd5c92568e2a20dd46be9a529"
+                "reference": "efbc31ff4ee0bef28da712a726316e8b0b5bf262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tester/zipball/b0f312e7ab9a70bbd5c92568e2a20dd46be9a529",
-                "reference": "b0f312e7ab9a70bbd5c92568e2a20dd46be9a529",
+                "url": "https://api.github.com/repos/nette/tester/zipball/efbc31ff4ee0bef28da712a726316e8b0b5bf262",
+                "reference": "efbc31ff4ee0bef28da712a726316e8b0b5bf262",
                 "shasum": ""
             },
             "require": {
@@ -2378,7 +2479,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -2409,7 +2510,164 @@
                 "testing",
                 "unit"
             ],
-            "time": "2015-10-26 05:38:30"
+            "time": "2016-02-08 10:30:15"
+        },
+        {
+            "name": "symfony/property-access",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/property-access.git",
+                "reference": "95363dbabd606e404b6c75095669993bf7ddae4b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/95363dbabd606e404b6c75095669993bf7ddae4b",
+                "reference": "95363dbabd606e404b6c75095669993bf7ddae4b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\PropertyAccess\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony PropertyAccess Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "access",
+                "array",
+                "extraction",
+                "index",
+                "injection",
+                "object",
+                "property",
+                "property path",
+                "reflection"
+            ],
+            "time": "2016-01-03 15:35:16"
+        },
+        {
+            "name": "ublaboo/datagrid",
+            "version": "v1.2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ublaboo/datagrid.git",
+                "reference": "2679d2f129d89bc1b22a6be9335fca1cb89faf76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ublaboo/datagrid/zipball/2679d2f129d89bc1b22a6be9335fca1cb89faf76",
+                "reference": "2679d2f129d89bc1b22a6be9335fca1cb89faf76",
+                "shasum": ""
+            },
+            "require": {
+                "nette/application": "~2.3.0",
+                "nette/forms": "~2.3.0",
+                "nette/utils": "~2.3.0",
+                "symfony/property-access": "~3.0",
+                "ublaboo/responses": "~1.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "nette/tester": "~1.6.1",
+                "tharos/leanmapper": "~2.2.0",
+                "tracy/tracy": "~2.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ublaboo\\DataGrid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Janda",
+                    "homepage": "http://paveljanda.com"
+                }
+            ],
+            "description": "DataGrid for Nette Framework: filtering, sorting, pagination, tree view, table view, translator, etc",
+            "homepage": "http://ublaboo.paveljanda.com/datagrid",
+            "keywords": [
+                "datagrid",
+                "grid",
+                "nette"
+            ],
+            "time": "2016-02-08 11:36:43"
+        },
+        {
+            "name": "ublaboo/responses",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ublaboo/responses.git",
+                "reference": "9c355a0d0a06b2091376fc8bbaa50ce357b902fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ublaboo/responses/zipball/9c355a0d0a06b2091376fc8bbaa50ce357b902fa",
+                "reference": "9c355a0d0a06b2091376fc8bbaa50ce357b902fa",
+                "shasum": ""
+            },
+            "require": {
+                "nette/http": "~2.3.0",
+                "nette/utils": "~2.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ublaboo\\Responses\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Janda",
+                    "homepage": "http://paveljanda.com"
+                }
+            ],
+            "description": "Additional responses for Nette Framework",
+            "homepage": "http://ublaboo.paveljanda.com/responses",
+            "keywords": [
+                "csv",
+                "image",
+                "json",
+                "nette",
+                "responses"
+            ],
+            "time": "2016-01-20 15:58:41"
         }
     ],
     "aliases": [],

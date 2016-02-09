@@ -65,16 +65,16 @@ class ChangePasswordFormFactory extends Object
 		$actual = $form->addText('password_actual', 'Actual password')
 			->addRule(Form::FILLED, 'Please fill password');
 
-		if ($this->checkPassword) {
+		if (!$this->checkPassword) {
 			$actual->setDisabled();
 		}
 
-		$form->addText('password_new', 'New password')
+		$form->addPassword('password_new', 'New password')
 			->addRule(Form::FILLED, 'Please fill password')
 			->addRule(Form::MIN_LENGTH, 'Password should be long %d characters at least', 5)
 			->addRule(~Form::PATTERN, 'Password should have one special characters (e.g. !%.,/)', '^[a-zA-Z0-9]*$');
 
-		$form->addText('password_repeat', 'Repeat new password')
+		$form->addPassword('password_repeat', 'Repeat new password')
 			->addRule(Form::EQUAL, 'New password and repeated is not same', $form['password_new']);
 
 		$form->addSubmit('send', 'Change password');

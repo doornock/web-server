@@ -51,7 +51,7 @@ class User implements IIdentity
 	 *
 	 * @ORM\Column(name="role", type="enum", columnDefinition="enum('user','administrator','blocked')", nullable=true)
 	 */
-	private $role;
+	private $role = Roles::USER;
 
 	/**
 	 * Constructor
@@ -109,6 +109,33 @@ class User implements IIdentity
 	public function getRoles()
 	{
 		return [$this->role];
+	}
+
+
+	/**
+	 * Block user
+	 */
+	public function block()
+	{
+		$this->role = Roles::BLOCKED;
+	}
+
+
+	/**
+	 * Unblock user or change administrator to user
+	 */
+	public function beNormal()
+	{
+		$this->role = Roles::USER;
+	}
+
+
+	/**
+	 * Change user to administrator
+	 */
+	public function mushroomUp()
+	{
+		$this->role = Roles::ADMINISTRATOR;
 	}
 
 }

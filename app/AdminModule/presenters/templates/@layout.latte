@@ -20,7 +20,7 @@
 
 	<header class="main-header">
 		<!-- Logo -->
-		<a href="../../index2.html" class="logo">
+		<a n:href=":Admin:Dashboard:" class="logo">
 			<!-- mini logo for sidebar mini 50x50 pixels -->
 			<span class="logo-mini"><img src="{$basePath}/assets/app/images/Login-Door.png" width="25px" alt="o" /></span>
 			<!-- logo for regular state and mobile devices -->
@@ -59,16 +59,19 @@
 			<ul class="sidebar-menu">
 				<li class="header">Navigation</li>
 				<li class="treeview active">
+					<a n:href="UserDetail:"><i class="fa fa-user-secret"></i> <span>Your account</span></a>
+				</li>
+				<li class="treeview" n:if="$user->isAllowed('admin')">
 					<a href="#">
-						<i class="fa fa-files-o"></i>
-						<span>Layout Options</span>
-						<span class="label label-primary pull-right">4</span>
+						<i class="fa fa-warning"></i>
+						<span>Admin</span>
+						{*<span class="label label-primary pull-right">4</span>*}
 					</a>
 					<ul class="treeview-menu">
-						<li><a href="top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-						<li class="active"><a href="boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-						<li><a href="fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-						<li><a href="collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+						<li n:class="$presenter->isLinkCurrent('User:') ? active"
+						 n:if="$user->isAllowed('admin_users')">
+							<a n:href="User:"><i class="fa fa-user"></i> Users</a>
+						</li>
 					</ul>
 				</li>
 			</ul>
@@ -80,7 +83,24 @@
 
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
-		{include content}
+
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1 n:ifset="#title">{include #title}</h1>
+
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+
+			<div n:if="$flashes">
+				<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">{$flash->message}</div>
+			</div>
+
+			{include content}
+		</section>
+
+
 	</div><!-- /.content-wrapper -->
 
 
@@ -92,6 +112,8 @@
 
 <script src="{$basePath}/assets/jQuery/js/jQuery-2.1.4.min.js"></script>
 <script src="{$basePath}/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="{$basePath}/assets/nette/nette.ajax.js"></script>
 <script src="{$basePath}/assets/AdminLTE/js/app.min.js"></script>
+<script src="{$basePath}/js/main.js"></script>
 </body>
 </html>
