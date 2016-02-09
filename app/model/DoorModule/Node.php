@@ -27,7 +27,7 @@ class Node
 	 *
 	 * @ORM\Column(name="auth_key", type="string", length=255, nullable=false, options={"comment":"key to authenticate with server"})
 	 */
-	private $authKey;
+	private $apiKey;
 
 	/**
 	 * @var string
@@ -63,9 +63,9 @@ class Node
 	/**
 	 * @return string
 	 */
-	public function getAuthKey()
+	public function getApiKey()
 	{
-		return $this->authKey;
+		return $this->apiKey;
 	}
 
 	/**
@@ -105,6 +105,15 @@ class Node
 			throw new \InvalidArgumentException("Argument \$availableNfc must be bool, got " . gettype($availableNfc));
 		}
 		$this->availableNfc = $availableNfc;
+	}
+
+	/**
+	 * Regenerate API key
+	 * @param ApiKeyGenerator $apiKeyGenerator
+	 */
+	public function regenerateApiKey(ApiKeyGenerator $apiKeyGenerator)
+	{
+		$this->apiKey = $apiKeyGenerator->generateApiKey();
 	}
 
 

@@ -7,7 +7,10 @@ use Doctrine\ORM\EntityManager;
 use Nette;
 
 
-class NodeManager
+/**
+ * Service layer communicates with nodes
+ */
+class NodeManager implements ApiKeyGenerator
 {
 
 	/** @var NodeRepository */
@@ -30,5 +33,44 @@ class NodeManager
 	}
 
 
+	/**
+	 * Add new node and register them doors
+	 * @param string $title
+	 * @param array[doorId=>title] $doors
+	 */
+	public function addNode($title, array $doors = array())
+	{
+		$node = new Node();
+		$node->setTitle($title);
+		$node->regenerateApiKey($this);
+		$this->entityManager->persist($node);
+
+		foreach ($doors as $id => $title) {
+			$door = new Door($node, $id, $title);
+			$this->entityManager->persist($door);
+		}
+
+		$this->entityManager->flush($node);
+	}
+
+
+
+	/**
+	 * Generate free API key for node
+	 *
+	 * @use only as ApiKeyGenerator
+	 *
+	 * @return string
+	 */
+	public function generateApiKey()
+	{
+		do {
+			$apiKey = Nette\Utils\Random::generate(100);
+			$exists = (bool) $this->nodeRepository->countBy(array(
+				"apiKey" => $apiKey
+			));
+		} while ($exists);
+		return $apiKey;
+	}
 
 }
