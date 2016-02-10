@@ -9,9 +9,9 @@ use Nette;
 
 
 /**
- * Service layer communicates with devices
+ * Service layer communicates with devices with API key
  */
-class DeviceAccessManager implements ApiKeyGenerator
+class DeviceAccessManager
 {
 
 	/** @var DeviceRepository */
@@ -44,69 +44,14 @@ class DeviceAccessManager implements ApiKeyGenerator
 
 
 	/**
-	 * Register new user's device to system
-	 * @param User $owner
-	 * @param string $publicKey public RSA key encoded in base64
-	 * @param string $description description
-	 * @return Device
-	 */
-	public function addDeviceRSA(User $owner, $publicKey, $description)
-	{
-		$device = new Device($owner);
-		$device->setDescription($description);
-		$device->changeRSAKeys($publicKey);
-		$device->changeApiKey($this); // apiKeyGenerator
-
-		$this->entityManager->persist($device);
-		$this->entityManager->flush();
-
-		return $device;
-	}
-
-
-	/**
-	 * Change RSA keys by API key to identify device
-	 * @param string $apiKey device's API key
-	 * @param string $publicKey public RSA key encoded in base64
-	 * @param string|null $privateKey private RSA key encoded in base64
-	 * @throws ApiKeyNotFoundException if api key is not found
-	 */
-	public function updateRSAKeyDeviceByApi($apiKey, $publicKey, $privateKey = NULL)
-	{
-		$device = $this->getDeviceByApiKey($apiKey);
-		$device->changeRSAKeys($publicKey, $privateKey);
-
-		$this->entityManager->flush();
-	}
-
-
-	/**
-	 * Generate free API key for device
-	 *
-	 * @use only as ApiKeyGenerator
-	 *
-	 * @return string
-	 */
-	public function generateApiKey()
-	{
-		do {
-			$apiKey = Nette\Utils\Random::generate(100);
-			$exists = (bool) $this->deviceRepository->countBy(array(
-				"apiKey" => $apiKey
-			));
-		} while ($exists);
-		return $apiKey;
-	}
-
-
-	/**
 	 * Find doors which has device access
 	 * @return Door[]
 	 * @throws ApiKeyNotFoundException if api key is not found
+	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
 	public function findDoorWithAccess($apiKey)
 	{
-		$device = $this->getDeviceByApiKey($apiKey);
+		$device = $this->getDevice($apiKey);
 
 		$q = new AccessDoorQuery();
 		$q->setUser($device->getOwner());
@@ -119,11 +64,13 @@ class DeviceAccessManager implements ApiKeyGenerator
 	 * Open door
 	 * @param string $apiKey device api key
 	 * @param string $doorId
-	 * @throws @todo Exception about no access
+	 * @todo implement it!
+	 * @throws ApiKeyNotFoundException if api key is not found
+	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
 	public function openDoor($apiKey, $doorId)
 	{
-		$device = $this->getDeviceByApiKey($apiKey);
+		$device = $this->getDevice($apiKey);
 
 		throw new Nette\NotImplementedException;
 	}
@@ -133,19 +80,17 @@ class DeviceAccessManager implements ApiKeyGenerator
 	 * Find device by API key, or throws exception
 	 * @param string $apiKey
 	 * @return Device
-	 * @throws ApiKeyNotFoundException
+	 * @throws ApiKeyNotFoundException if not found
+	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
-	private function getDeviceByApiKey($apiKey)
+	private function getDevice($apiKey)
 	{
-		$device = $this->deviceRepository->findOneBy(array(
-			"apiKey" => $apiKey
-		)); /** @var $device Device */
-
-		if (!$device) {
-			throw new ApiKeyNotFoundException($apiKey);
+		$device = $this->deviceRepository->getDeviceByApiKey($apiKey);
+		if ($device->isBlocked()) {
+			throw new DeviceIsBlockedException($device);
 		}
-
 		return $device;
 	}
+
 
 }

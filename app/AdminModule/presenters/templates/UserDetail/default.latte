@@ -13,6 +13,17 @@
 		</div>
 		<!-- /.box-body -->
 	</div>
+
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">List of devices</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body no-padding">
+			{control deviceGrid}
+		</div>
+		<!-- /.box-body -->
+	</div>
 </div>
 <div class="col-md-4">
 	<div class="box">
@@ -45,8 +56,9 @@
 				{input send, class => "btn btn-info pull-right"}
 			</div>
 		{/form}
-		<hr>
-		{if $allowChangeRole}
+	</div>
+	{if $allowChangeRole}
+		<div class="box">
 			<div class="box-header">
 				<h3 class="box-title">Change role</h3>
 			</div>
@@ -65,12 +77,6 @@
 					{input send, class => "btn btn-info pull-right"}
 				</div>
 			{/form}
-		{/if}
-	</div>
-</div>
-
-<div class="col-md-4">
-	<div class="box">
-
-	</div>
+		</div>
+	{/if}
 </div>

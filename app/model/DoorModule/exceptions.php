@@ -27,6 +27,27 @@ class ApiKeyNotFoundException extends \Exception
 
 }
 
+class DeviceIsBlockedException extends \Exception
+{
+	private $device;
+
+	public function __construct(Device $device, $code = 0, Exception $previous = null)
+	{
+		$this->device = $device;
+		parent::__construct("Device is blocked", $code, $previous);
+	}
+
+	/**
+	 * Object of device
+	 * @return Device
+	 */
+	public function getDevice()
+	{
+		return $this->device;
+	}
+
+}
+
 class AccessUnauthorizedException extends \Exception
 {
 
@@ -55,3 +76,6 @@ class AccessUnauthorizedException extends \Exception
 	}
 
 }
+
+class DeviceNotFoundException extends \Exception
+{}

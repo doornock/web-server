@@ -62,6 +62,7 @@ class AccessDoorQuery extends QueryObject
 			->leftJoin(UserAccess::class, 'ua', 'WITH', 'd = ua.door')
 			->leftJoin(User::class, 'u', 'WITH', 'u = ua.user')
 			->where('ua.access = :access')
+			->where('ua.access = :access')
 			->andWhere('u = :user')
 			->andWhere('u.role != :blocked')
 			->setParameter('blocked', 'blocked')

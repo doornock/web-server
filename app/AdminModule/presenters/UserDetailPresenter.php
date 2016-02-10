@@ -3,9 +3,12 @@
 namespace Doornock\AdminModule\Presenters;
 
 
+use Doornock\AdminModule\Components\DeviceGridFactory;
 use Doornock\AdminModule\Forms\AddUserFormFactory;
 use Doornock\AdminModule\Forms\ChangePasswordFormFactory;
 use Doornock\AdminModule\Forms\ChangeRoleFormFactory;
+use Doornock\Model\DoorModule\DeviceManager;
+use Doornock\Model\DoorModule\DeviceNotFoundException;
 use Doornock\Model\UserModule\User;
 use Doornock\Model\UserModule\UserManager;
 use Doornock\Model\UserModule\UserRepository;
@@ -25,12 +28,20 @@ class UserDetailPresenter extends BasePresenter
 	public $changeRoleFormFactory;
 
 
+	/** @var DeviceGridFactory @inject */
+	public $deviceGridFactory;
+
+
 	/** @var UserRepository */
 	public $userRepository;
 
 
 	/** @var UserManager */
 	public $userManager;
+
+
+	/** @var DeviceManager @inject */
+	public $deviceManager;
 
 
 	/**
@@ -75,6 +86,21 @@ class UserDetailPresenter extends BasePresenter
 	}
 
 
+	public function handleBlockDevice($deviceId)
+	{
+		try {
+			if ($this->user->isAllowed('admin_users', 'block_every_device')) {
+				$this->deviceManager->blockDeviceById($deviceId);
+			} else {
+				$this->deviceManager->blockDeviceById($deviceId, $this->user->getIdentity());
+			}
+		} catch (DeviceNotFoundException $e) {
+			$this->flashMessage('Device not found', 'danger');
+		}
+	}
+
+
+
 	public function renderDefault()
 	{
 		$this->template->selectedUser = $this->selectedUser;
@@ -110,4 +136,14 @@ class UserDetailPresenter extends BasePresenter
 		};
 		return $component;
 	}
+
+
+	public function createComponentDeviceGrid()
+	{
+		$grid = $this->deviceGridFactory->create($this->selectedUser);
+		$grid->addCellsTemplate(__DIR__ . '/templates/UserDetail/DeviceGrid.latte');
+		return $grid;
+	}
+
+
 }

@@ -4,6 +4,7 @@ namespace Doornock\ApiModule\Presenters;
 
 use Doornock\Model\DoorModule\Device;
 use Doornock\Model\DoorModule\DeviceAccessManager;
+use Doornock\Model\DoorModule\DeviceManager;
 use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\UserModule\User;
 use Doornock\Model\UserModule\UserRepository;
@@ -18,6 +19,10 @@ class DevicePresenter extends BasePresenter
 
 
 	/** @var DeviceAccessManager */
+	private $deviceAccessManager;
+
+
+	/** @var DeviceManager */
 	private $deviceManager;
 
 
@@ -27,17 +32,20 @@ class DevicePresenter extends BasePresenter
 	/**
 	 * DevicePresenter constructor.
 	 * @param DeviceRepository $deviceRepository
-	 * @param DeviceAccessManager $deviceManager
+	 * @param DeviceAccessManager $deviceAccessManager
+	 * @param DeviceManager $deviceManager
 	 * @param UserRepository $userRepository
 	 */
 	public function __construct(
 		DeviceRepository $deviceRepository,
-		DeviceAccessManager $deviceManager,
+		DeviceAccessManager $deviceAccessManager,
+		DeviceManager $deviceManager,
 		UserRepository $userRepository
 	)
 	{
 		parent::__construct();
 		$this->deviceRepository = $deviceRepository;
+		$this->deviceAccessManager = $deviceAccessManager;
 		$this->deviceManager = $deviceManager;
 		$this->userRepository = $userRepository;
 	}
@@ -93,7 +101,7 @@ class DevicePresenter extends BasePresenter
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
 
-		$this->deviceManager->updateRSAKeyDeviceByApi($api_key, $publicKey);
+		$this->deviceManager->updateRSAKeyDeviceByApi($api_key, $publicKey, $description);
 
 		$this->sendSuccess();
 	}

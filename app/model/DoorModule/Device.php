@@ -93,9 +93,10 @@ class Device
 
 	/**
 	 * Is device blocked (true) or available to authenticate (false)?
+	 * @ORM\Column(name="blocked", type="boolean", options={"comment":"is device blocked?"})
 	 * @var boolean
 	 */
-	private $blocked;
+	private $blocked = FALSE;
 
 
 
@@ -188,6 +189,15 @@ class Device
 	public function changeApiKey(ApiKeyGenerator $generator)
 	{
 		$this->apiKey = $generator->generateApiKey();
+	}
+
+
+	/**
+	 * Device is blocked and cannot be used
+	 */
+	public function block()
+	{
+		$this->blocked = TRUE;
 	}
 
 

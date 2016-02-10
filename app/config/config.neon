@@ -49,6 +49,7 @@ services:
 	- Doornock\Model\UserModule\UserRepository
 
 	- Doornock\Model\DoorModule\DeviceRepository
+	- Doornock\Model\DoorModule\DeviceManager
 	- Doornock\Model\DoorModule\DeviceAccessManager
 
 	- Doornock\Model\DoorModule\NodeRepository
@@ -60,3 +61,4 @@ services:
 	- Doornock\AdminModule\Forms\ChangePasswordFormFactory
 	- Doornock\AdminModule\Forms\AddUserFormFactory
 	- Doornock\AdminModule\Components\UserGridFactory
+	- Doornock\AdminModule\Components\DeviceGridFactory
