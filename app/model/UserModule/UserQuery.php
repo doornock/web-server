@@ -92,8 +92,8 @@ class UserQuery extends QueryObject
 			$qb->setParameter('roles', $this->roles);
 		}
 
-		foreach ($this->orderBy as $column) {
-			$qb->addOrderBy("u." . $column);
+		foreach ($this->orderBy as $column => $asc) {
+			$qb->addOrderBy('u.' . $column, $asc ? 'ASC' : 'DESC');
 		}
 
 		return $qb;
