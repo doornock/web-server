@@ -87,7 +87,7 @@ class DeviceGridFactory extends Nette\Object
 
 
 			if (isset($filter['description'])) {
-				$q->searchByOwnerDescription($filter['description']);
+				$q->searchByDescription($filter['description']);
 			}
 
 			if ($order !== NULL && $order[0] === 'id') {

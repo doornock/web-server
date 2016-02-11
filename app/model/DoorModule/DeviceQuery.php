@@ -58,7 +58,7 @@ class DeviceQuery extends QueryObject
 	 * Search by part of description
 	 * @param string $text
 	 */
-	public function searchByOwnerDescription($text)
+	public function searchByDescription($text)
 	{
 		$this->searchByDescription = $text;
 	}
@@ -144,6 +144,10 @@ class DeviceQuery extends QueryObject
 		if ($this->blocking !== NULL) {
 			$qb->andWhere('d.blocked = :blocked');
 			$qb->setParameter('blocked', $this->blocking);
+		}
+
+		foreach ($this->orderBy as $key => $asc) {
+			$qb->orderBy($key, $asc ? 'ASC' : 'DESC');
 		}
 
 		return $qb;
