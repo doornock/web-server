@@ -56,6 +56,7 @@ services:
 	- Doornock\Model\DoorModule\NodeManager
 
 	- Doornock\Model\DoorModule\DoorRepository
+	- Doornock\Model\DoorModule\AccessManager
 
 	- Doornock\AdminModule\Forms\ChangeRoleFormFactory
 	- Doornock\AdminModule\Forms\ChangePasswordFormFactory
@@ -66,4 +67,4 @@ services:
 	- Doornock\AdminModule\Forms\AddNodeFormFactory
 	- Doornock\AdminModule\Components\DoorGridFactory
 	- Doornock\AdminModule\Forms\DoorFormFactory
-
+	- Doornock\AdminModule\Components\DoorAccessGridFactory

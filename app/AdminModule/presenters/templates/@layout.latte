@@ -61,7 +61,7 @@
 				<li n:class="treeview, $presenter->isLinkCurrent('UserDetail:default') ? active">
 					<a n:href="UserDetail:"><i class="fa fa-user-secret"></i> <span>Your account</span></a>
 				</li>
-				<li class="treeview" n:if="$user->isAllowed('admin')">
+				<li class="treeview active" n:if="$user->isAllowed('admin')">
 					<a href="#">
 						<i class="fa fa-warning"></i>
 						<span>Admin</span>

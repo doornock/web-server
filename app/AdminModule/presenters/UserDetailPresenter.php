@@ -4,6 +4,7 @@ namespace Doornock\AdminModule\Presenters;
 
 
 use Doornock\AdminModule\Components\DeviceGridFactory;
+use Doornock\AdminModule\Components\DoorAccessGridFactory;
 use Doornock\AdminModule\Forms\AddUserFormFactory;
 use Doornock\AdminModule\Forms\ChangePasswordFormFactory;
 use Doornock\AdminModule\Forms\ChangeRoleFormFactory;
@@ -30,6 +31,10 @@ class UserDetailPresenter extends BasePresenter
 
 	/** @var DeviceGridFactory @inject */
 	public $deviceGridFactory;
+
+
+	/** @var DoorAccessGridFactory @inject */
+	public $doorAccessGridFactory;
 
 
 	/** @var UserRepository */
@@ -143,6 +148,14 @@ class UserDetailPresenter extends BasePresenter
 		$grid = $this->deviceGridFactory->create($this->selectedUser);
 		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
 		$grid->addCellsTemplate(__DIR__ . '/templates/UserDetail/DeviceGrid.latte');
+		return $grid;
+	}
+
+
+	public function createComponentDoorAccessGrid()
+	{
+		$grid = $this->doorAccessGridFactory->create($this->selectedUser);
+		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
 		return $grid;
 	}
 

@@ -17,34 +17,24 @@ class DeviceAccessManager
 	/** @var DeviceRepository */
 	private $deviceRepository;
 
-	/** @var DoorRepository */
-	private $doorRepository;
-
-
-	/** @var EntityManager */
-	private $entityManager;
-
+	/** @var AccessManager */
+	private $accessManager;
 
 	/**
-	 * User manager constructor.
+	 * DeviceAccessManager constructor.
 	 * @param DeviceRepository $deviceRepository
-	 * @param DoorRepository $doorRepository look up doors with access
-	 * @param EntityManager $entityManager To propagate new device
+	 * @param AccessManager $accessManager
 	 */
-	public function __construct(
-		DeviceRepository $deviceRepository,
-		DoorRepository $doorRepository,
-		EntityManager $entityManager
-	)
+	public function __construct(DeviceRepository $deviceRepository, AccessManager $accessManager)
 	{
 		$this->deviceRepository = $deviceRepository;
-		$this->doorRepository = $doorRepository;
-		$this->entityManager = $entityManager;
+		$this->accessManager = $accessManager;
 	}
 
 
 	/**
 	 * Find doors which has device access
+	 * @param string $apiKey
 	 * @return Door[]
 	 * @throws ApiKeyNotFoundException if api key is not found
 	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
@@ -52,11 +42,7 @@ class DeviceAccessManager
 	public function findDoorWithAccess($apiKey)
 	{
 		$device = $this->getDevice($apiKey);
-
-		$q = new AccessDoorQuery();
-		$q->setUser($device->getOwner());
-
-		return $this->doorRepository->fetch($q)->toArray();
+		return $this->accessManager->findDoorWithAccess($device->getOwner())->toArray();
 	}
 
 
