@@ -1,0 +1,50 @@
+{block title}Edit door{/block}
+{block content}
+
+<div class="col-md-9">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Edit door {$door->getTitle()}</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			{form form}
+				<div class="box-body">
+					{foreach $form->getOwnErrors() as $error}
+						{$error}
+					{/foreach}
+					<div class="form-group">
+						{label title /}
+						<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
+						{input title, class => "form-control"}
+					</div>
+					<div class="form-group">
+						{label opening_time /}
+						<p class="alert alert-warning" n:foreach="$form['opening_time']->getErrors() as $error">{$error}</p>
+						<div class="input-group">
+							{input opening_time, class => "form-control"}
+							<span class="input-group-addon">seconds</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="box-footer">
+					{input send, class => "btn btn-info pull-right"}
+				</div>
+			{/form}
+		</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+<div class="col-md-3">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Remove door</h3>
+		</div>
+		<div class="box-body">
+			<p><strong>Danger!</strong> This method remove all access to door, if it's main door, don't forget on key.</p>
+
+			<a n:href="deleteDoor!, $door->getId()" class="btn btn-danger">Delete door</a>
+		</div>
+	</div>
+</div>

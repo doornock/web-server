@@ -64,3 +64,6 @@ services:
 	- Doornock\AdminModule\Components\DeviceGridFactory
 	- Doornock\AdminModule\Components\NodeGridFactory
 	- Doornock\AdminModule\Forms\AddNodeFormFactory
+	- Doornock\AdminModule\Components\DoorGridFactory
+	- Doornock\AdminModule\Forms\DoorFormFactory
+

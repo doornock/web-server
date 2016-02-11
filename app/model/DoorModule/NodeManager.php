@@ -21,14 +21,21 @@ class NodeManager implements ApiKeyGenerator
 	private $entityManager;
 
 
+	/** @var DoorRepository */
+	private $doorRepository;
+
+
+
 	/**
 	 * User manager constructor.
 	 * @param NodeRepository $nodeRepository
+	 * @param DoorRepository $doorRepository
 	 * @param EntityManager $entityManager To propagate new node
 	 */
-	public function __construct(NodeRepository $nodeRepository, EntityManager $entityManager)
+	public function __construct(NodeRepository $nodeRepository, DoorRepository $doorRepository, EntityManager $entityManager)
 	{
 		$this->nodeRepository = $nodeRepository;
+		$this->doorRepository = $doorRepository;
 		$this->entityManager = $entityManager;
 	}
 
@@ -57,8 +64,66 @@ class NodeManager implements ApiKeyGenerator
 
 		return $node;
 	}
+
+
+
+	public function addDoor(Node $node, $title, $openingTime)
+	{
+		$door = new Door($node, $title);
+		$door->setDefaultOpeningTime((int) $openingTime * 1000);
+		$this->entityManager->persist($door);
+		$this->entityManager->flush();
 	}
 
+
+	/**
+	 * Update door door id
+	 * @param int $doorId
+	 * @param string $title
+	 * @param float $openingTime in seconds
+	 * @throws DoorIdNotFoundException
+	 */
+	public function updateDoor($doorId, $title, $openingTime)
+	{
+		$door = $this->doorRepository->find($doorId);
+		if (!$door) {
+			throw new DoorIdNotFoundException($doorId);
+		}
+		$door->setTitle($title);
+		$door->setDefaultOpeningTime((int) $openingTime * 1000);
+		$this->entityManager->flush($door);
+	}
+
+
+	/**
+	 * Remove doors
+	 * @param int $doorId
+	 * @throws DoorIdNotFoundException if door not found by id
+	 */
+	public function removeDoor($doorId)
+	{
+		$door = $this->doorRepository->find($doorId);
+		if (!$door) {
+			throw new DoorIdNotFoundException($doorId);
+		}
+		$this->entityManager->remove($door);
+		$this->entityManager->flush();
+	}
+
+
+
+
+	/**
+	 * Remove node with associated doors
+	 * @param Node $node
+	 */
+	public function removeNode(Node $node)
+	{
+		foreach ($node->getDoors() as $door) {
+			$this->entityManager->remove($door);
+		}
+		$this->entityManager->remove($node);
+	}
 
 
 	/**

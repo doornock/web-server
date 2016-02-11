@@ -79,3 +79,6 @@ class AccessUnauthorizedException extends \Exception
 
 class DeviceNotFoundException extends \Exception
 {}
+
+class DoorIdNotFoundException extends \Exception
+{}

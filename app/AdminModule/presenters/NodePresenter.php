@@ -22,19 +22,6 @@ class NodePresenter extends BasePresenter
 	public $addNodeFormFactory;
 
 
-	/** @var NodeRepository */
-	private $nodeRepository;
-
-	/**
-	 * NodePresenter constructor.
-	 * @param NodeRepository $nodeRepository
-	 */
-	public function __construct(NodeRepository $nodeRepository)
-	{
-		parent::__construct();
-		$this->nodeRepository = $nodeRepository;
-	}
-
 
 	protected function startup()
 	{
@@ -43,17 +30,6 @@ class NodePresenter extends BasePresenter
 			$this->error('No access', IResponse::S403_FORBIDDEN);
 		}
 	}
-
-
-	public function actionDetail($nodeId)
-	{
-		$this->template->node = $node = $this->nodeRepository->getById($nodeId);
-		if (!$node) {
-			$this->flashMessage('Node not found', 'danger');
-			$this->redirect('default');
-		}
-	}
-
 
 
 	public function createComponentGrid()
@@ -69,7 +45,7 @@ class NodePresenter extends BasePresenter
 	{
 		return $this->addNodeFormFactory->create(function (Form $form, Node $node) {
 			$this->flashMessage(sprintf("Node '%s' was successfully added", $node->getId()), 'success');
-			$this->redirect('detail', $node->getId());
+			$this->redirect('NodeDetail:', array('nodeId' => $node->getId()));
 		});
 	}
 }

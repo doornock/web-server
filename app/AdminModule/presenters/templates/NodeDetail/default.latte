@@ -1,0 +1,70 @@
+{block title}Node detail{/block}
+{block content}
+
+<div class="col-md-8">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Node <code>{$node->getTitle()}</code> configuration</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			Id: {$node->getId()} <br>
+			Title: {$node->getTitle()} <br>
+			API (secret) key: <code>{$node->getApiKey()}</code>
+		</div>
+		<!-- /.box-body -->
+	</div>
+
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">List of door</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body no-padding">
+			{control doorGrid}
+		</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+<div class="col-md-4">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">configuration.yml</h3>
+		</div>
+
+		<div class="box-body no-padding">
+			<code>
+
+			</code>
+		</div>
+	</div>
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Add new door</h3>
+		</div>
+		{form addDoorForm}
+			<div class="box-body">
+				{foreach $form->getOwnErrors() as $error}
+					{$error}
+				{/foreach}
+				<div class="form-group">
+					{label title /}
+					<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
+					{input title, class => "form-control"}
+				</div>
+				<div class="form-group">
+					{label opening_time /}
+					<p class="alert alert-warning" n:foreach="$form['opening_time']->getErrors() as $error">{$error}</p>
+					<div class="input-group">
+						{input opening_time, class => "form-control"}
+						<span class="input-group-addon">seconds</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="box-footer">
+				{input send, class => "btn btn-info pull-right"}
+			</div>
+		{/form}
+	</div>
+</div>

@@ -30,7 +30,7 @@ class Door
 	 *
 	 * @var Node
 	 *
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Node", inversedBy="doors", cascade={"remove"})
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Node", inversedBy="doors")
 	 * @ORM\JoinColumns({
 	 *   @ORM\JoinColumn(name="node_id", referencedColumnName="id", onDelete="CASCADE")
 	 * })
