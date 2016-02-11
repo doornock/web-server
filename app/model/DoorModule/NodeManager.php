@@ -71,7 +71,7 @@ class NodeManager implements ApiKeyGenerator
 	public function generateApiKey()
 	{
 		do {
-			$apiKey = Nette\Utils\Random::generate(100);
+			$apiKey = Nette\Utils\Random::generate(50, 'a-zA-Z0-9-,');
 			$exists = (bool) $this->nodeRepository->countBy(array(
 				"apiKey" => $apiKey
 			));
