@@ -36,7 +36,7 @@ class AddUserFormFactory extends Object
 		$form->addText('username', 'Username')
 			->addRule(Form::FILLED, 'Please fill username');
 
-		$form->addPassword('password', 'New password')
+		$form->addPassword('password', 'Password')
 			->addRule(Form::FILLED, 'Please fill password')
 			->addRule(Form::MIN_LENGTH, 'Password must be long %d characters at least', 6)
 			->addRule(~Form::PATTERN, 'Password must has a one special characters (e.g. !%.,/)', '^[a-zA-Z0-9]*$');
