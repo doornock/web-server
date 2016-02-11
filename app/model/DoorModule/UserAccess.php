@@ -28,7 +28,7 @@ class UserAccess
 
 	/**
 	 * User
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\UserModule\User", cascade={"remove"})
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\UserModule\User")
 	 * @ORM\JoinColumns({
 	 *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 * })
@@ -39,7 +39,7 @@ class UserAccess
 
 	/**
 	 * Door
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Door", cascade={"remove"})
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Door")
 	 * @ORM\JoinColumns({
 	 *   @ORM\JoinColumn(name="door_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 * })
