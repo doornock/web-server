@@ -26,16 +26,6 @@ class Door
 
 
 	/**
-	 * Defined string to identify doors on node
-	 * Don't use to identify door
-	 *
-	 * @var string
-	 * @ORM\Column(name="code", type="string", length=100, nullable=false)
-	 */
-	private $code;
-
-
-	/**
 	 * Where is door connected
 	 *
 	 * @var Node
@@ -70,11 +60,12 @@ class Door
 	 * @param string $code identifier on node
 	 * @param string|NULL $title human readable name
 	 */
-	public function __construct(Node $node, $code, $title = NULL)
+	public function __construct(Node $node, $title = NULL)
 	{
-		$this->changeNode($node, $code);
+		$this->setNode($node);
 		$this->title = $title;
 	}
+
 
 	/**
 	 * Return unique id for all doors
@@ -85,14 +76,6 @@ class Door
 		return $this->id;
 	}
 
-	/**
-	 * Get control code in node
-	 * @return string
-	 */
-	public function getCode()
-	{
-		return $this->code;
-	}
 
 	/**
 	 * Node which control door
@@ -102,6 +85,7 @@ class Door
 	{
 		return $this->node;
 	}
+
 
 	/**
 	 * Human readable name (eg. "Main house doors")
@@ -146,27 +130,11 @@ class Door
 	/**
 	 * Change node controlling this door
 	 * @param Node $node
-	 * @param string $code code name in new node
 	 */
-	public function changeNode(Node $node, $code)
+	public function setNode(Node $node)
 	{
-		if (self::validateCode($code)) {
-			throw new \InvalidArgumentException('Door id is not scalar string, or is not composed of [a-z0-9_]');
-		}
-
 		$this->node = $node;
-		$this->code = $code;
 	}
 
-
-	/**
-	 * Checks door code is valid
-	 * @param string $code
-	 * @return bool
-	 */
-	public static function validateCode($code)
-	{
-		return is_string($code) && Strings::match($code, "^[a-z0-9_]+$");
-	}
 
 }

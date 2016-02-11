@@ -48,12 +48,12 @@ class NodeManager implements ApiKeyGenerator
 		$node->setAvailabilityNfc($nfcAvailable);
 		$this->entityManager->persist($node);
 
-		foreach ($doors as $id => $title) {
-			$door = new Door($node, $id, $title);
+		foreach ($doors as $title) {
+			$door = new Door($node, $title);
 			$this->entityManager->persist($door);
 		}
 
-		$this->entityManager->flush($node);
+		$this->entityManager->flush();
 
 		return $node;
 	}
