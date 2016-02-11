@@ -104,8 +104,8 @@ class UserDetailPresenter extends BasePresenter
 	public function renderDefault()
 	{
 		$this->template->selectedUser = $this->selectedUser;
-		$this->template->isYou = $this->selectedUser->getId() === $this->user->getId();
-		$this->template->allowChangeRole = $this->user->isAllowed('admin_users', 'change_role');
+		$this->template->isYou = $isYou = $this->selectedUser->getId() === $this->user->getId();
+		$this->template->allowChangeRole = !$isYou && $this->user->isAllowed('admin_users', 'change_role');
 	}
 
 
@@ -141,6 +141,7 @@ class UserDetailPresenter extends BasePresenter
 	public function createComponentDeviceGrid()
 	{
 		$grid = $this->deviceGridFactory->create($this->selectedUser);
+		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
 		$grid->addCellsTemplate(__DIR__ . '/templates/UserDetail/DeviceGrid.latte');
 		return $grid;
 	}

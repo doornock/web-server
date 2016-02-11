@@ -38,6 +38,7 @@ class UserPresenter extends BasePresenter
 	public function createComponentGrid()
 	{
 		$grid = $this->gridFactory->create();
+		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
 		$grid->addCellsTemplate(__DIR__ . '/templates/User/UserGrid.latte');
 		return $grid;
 	}
