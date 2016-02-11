@@ -28,9 +28,9 @@ class UserAccess
 
 	/**
 	 * User
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\UserModule\User")
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\UserModule\User", cascade={"remove"})
 	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+	 *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 * })
 	 * @var User
 	 */
@@ -39,14 +39,13 @@ class UserAccess
 
 	/**
 	 * Door
-	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Door")
+	 * @ORM\ManyToOne(targetEntity="Doornock\Model\DoorModule\Door", cascade={"remove"})
 	 * @ORM\JoinColumns({
-	 *   @ORM\JoinColumn(name="door_id", referencedColumnName="id", nullable=false)
+	 *   @ORM\JoinColumn(name="door_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 * })
 	 * @var Door
 	 */
 	private $door;
-
 
 
 	/**
@@ -54,9 +53,46 @@ class UserAccess
 	 *
 	 * @var bool
 	 *
-	 * @ORM\Column(name="access", type="boolean", options={"comment":"name of terminal"})
+	 * @ORM\Column(name="access", type="boolean", options={"comment":"Has access"})
 	 */
 	private $access = TRUE;
 
+
+
+	/**
+	 * UserAccess constructor.
+	 * @param User $user
+	 * @param Door $door
+	 */
+	public function __construct(User $user, Door $door)
+	{
+		$this->user = $user;
+		$this->door = $door;
+	}
+
+	/**
+	 * @return User
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
+
+	/**
+	 * @return Door
+	 */
+	public function getDoor()
+	{
+		return $this->door;
+	}
+
+	/**
+	 * Has user access?
+	 * @return boolean
+	 */
+	public function isAccess()
+	{
+		return $this->access;
+	}
 
 }
