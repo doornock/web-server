@@ -58,7 +58,7 @@
 			<!-- sidebar menu: : style can be found in sidebar.less -->
 			<ul class="sidebar-menu">
 				<li class="header">Navigation</li>
-				<li class="treeview active">
+				<li n:class="treeview, $presenter->isLinkCurrent('UserDetail:default') ? active">
 					<a n:href="UserDetail:"><i class="fa fa-user-secret"></i> <span>Your account</span></a>
 				</li>
 				<li class="treeview" n:if="$user->isAllowed('admin')">
@@ -71,6 +71,10 @@
 						<li n:class="$presenter->isLinkCurrent('User:') ? active"
 						 n:if="$user->isAllowed('admin_users')">
 							<a n:href="User:"><i class="fa fa-user"></i> Users</a>
+						</li>
+						<li n:class="$presenter->isLinkCurrent('Node:') ? active"
+						    n:if="$user->isAllowed('admin_nodes')">
+							<a n:href="Node:"><i class="fa fa-bolt"></i> Nodes</a>
 						</li>
 					</ul>
 				</li>

@@ -62,3 +62,5 @@ services:
 	- Doornock\AdminModule\Forms\AddUserFormFactory
 	- Doornock\AdminModule\Components\UserGridFactory
 	- Doornock\AdminModule\Components\DeviceGridFactory
+	- Doornock\AdminModule\Components\NodeGridFactory
+	- Doornock\AdminModule\Forms\AddNodeFormFactory

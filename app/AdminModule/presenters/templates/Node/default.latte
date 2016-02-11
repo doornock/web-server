@@ -1,0 +1,42 @@
+{block title}Nodes{/block}
+{block content}
+
+<div class="col-md-9">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">List of nodes</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body no-padding">
+			{control grid}
+		</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+<div class="col-md-3">
+	<div class="box">
+		<div class="box-header">
+			<h3 class="box-title">Add new node</h3>
+		</div>
+		{form addForm}
+			<div class="box-body">
+					{foreach $form->getOwnErrors() as $error}
+						{$error}
+					{/foreach}
+					<div class="form-group">
+						{label title /}
+						<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
+						{input title, class => "form-control"}
+					</div>
+					<div class="form-group checkbox">
+						<p class="alert alert-warning" n:foreach="$form['nfc_available']->getErrors() as $error">{$error}</p>
+						{input nfc_available, class => "form-control"}
+					</div>
+
+			</div>
+			<div class="box-footer">
+				{input send, class => "btn btn-info pull-right"}
+			</div>
+		{/form}
+	</div>
+</div>

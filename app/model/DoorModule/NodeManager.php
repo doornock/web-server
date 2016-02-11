@@ -37,12 +37,15 @@ class NodeManager implements ApiKeyGenerator
 	 * Add new node and register them doors
 	 * @param string $title
 	 * @param array[doorId=>title] $doors
+	 * @param bool $nfcAvailable
+	 * @return Node
 	 */
-	public function addNode($title, array $doors = array())
+	public function addNode($title, array $doors = array(), $nfcAvailable = TRUE)
 	{
 		$node = new Node();
 		$node->setTitle($title);
 		$node->regenerateApiKey($this);
+		$node->setAvailabilityNfc($nfcAvailable);
 		$this->entityManager->persist($node);
 
 		foreach ($doors as $id => $title) {
@@ -51,6 +54,9 @@ class NodeManager implements ApiKeyGenerator
 		}
 
 		$this->entityManager->flush($node);
+
+		return $node;
+	}
 	}
 
 
