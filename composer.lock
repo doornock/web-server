@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d4dd5ffd30e9083d285b6e2ab23c6a7",
-    "content-hash": "8068a42830448dc36d48e5e243907285",
+    "hash": "4284ed5dad8a7be6c262f5570645d7cd",
+    "content-hash": "26ea441a893065957dd244e6b586f26a",
     "packages": [
         {
             "name": "Majkl578/nette-identity-doctrine",
@@ -2226,6 +2226,63 @@
             "time": "2015-06-21 16:22:22"
         },
         {
+            "name": "nextras/secured-links",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nextras/secured-links.git",
+                "reference": "244b85fb33fa8e582e3144a592a1a8adf8884aa0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nextras/secured-links/zipball/244b85fb33fa8e582e3144a592a1a8adf8884aa0",
+                "reference": "244b85fb33fa8e582e3144a592a1a8adf8884aa0",
+                "shasum": ""
+            },
+            "require": {
+                "nette/application": "~2.2",
+                "nette/utils": "~2.2",
+                "php": ">=5.4"
+            },
+            "replace": {
+                "nextras/application": "self.version"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "nette/tester": "~1.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nextras\\Application\\UI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Skrasek",
+                    "email": "hrach.cz@gmail.com",
+                    "homepage": "http://jan.skrasek.com"
+                }
+            ],
+            "description": "Package secures Nette Framework signals against CSRF attack.",
+            "keywords": [
+                "application",
+                "nette",
+                "nextras",
+                "secured signals"
+            ],
+            "time": "2015-06-21 16:18:06"
+        },
+        {
             "name": "symfony/console",
             "version": "v2.8.2",
             "source": {
@@ -2404,12 +2461,12 @@
             "version": "v2.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/videlalvaro/php-amqplib.git",
+                "url": "https://github.com/php-amqplib/php-amqplib.git",
                 "reference": "8a6e89ad46130eb365b7f57d313f2a795f5e3269"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/videlalvaro/php-amqplib/zipball/8a6e89ad46130eb365b7f57d313f2a795f5e3269",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/8a6e89ad46130eb365b7f57d313f2a795f5e3269",
                 "reference": "8a6e89ad46130eb365b7f57d313f2a795f5e3269",
                 "shasum": ""
             },
@@ -2571,103 +2628,6 @@
                 "reflection"
             ],
             "time": "2016-01-03 15:35:16"
-        },
-        {
-            "name": "ublaboo/datagrid",
-            "version": "v1.2.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ublaboo/datagrid.git",
-                "reference": "2679d2f129d89bc1b22a6be9335fca1cb89faf76"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ublaboo/datagrid/zipball/2679d2f129d89bc1b22a6be9335fca1cb89faf76",
-                "reference": "2679d2f129d89bc1b22a6be9335fca1cb89faf76",
-                "shasum": ""
-            },
-            "require": {
-                "nette/application": "~2.3.0",
-                "nette/forms": "~2.3.0",
-                "nette/utils": "~2.3.0",
-                "symfony/property-access": "~3.0",
-                "ublaboo/responses": "~1.0.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "nette/tester": "~1.6.1",
-                "tharos/leanmapper": "~2.2.0",
-                "tracy/tracy": "~2.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ublaboo\\DataGrid\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pavel Janda",
-                    "homepage": "http://paveljanda.com"
-                }
-            ],
-            "description": "DataGrid for Nette Framework: filtering, sorting, pagination, tree view, table view, translator, etc",
-            "homepage": "http://ublaboo.paveljanda.com/datagrid",
-            "keywords": [
-                "datagrid",
-                "grid",
-                "nette"
-            ],
-            "time": "2016-02-08 11:36:43"
-        },
-        {
-            "name": "ublaboo/responses",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ublaboo/responses.git",
-                "reference": "9c355a0d0a06b2091376fc8bbaa50ce357b902fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ublaboo/responses/zipball/9c355a0d0a06b2091376fc8bbaa50ce357b902fa",
-                "reference": "9c355a0d0a06b2091376fc8bbaa50ce357b902fa",
-                "shasum": ""
-            },
-            "require": {
-                "nette/http": "~2.3.0",
-                "nette/utils": "~2.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ublaboo\\Responses\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pavel Janda",
-                    "homepage": "http://paveljanda.com"
-                }
-            ],
-            "description": "Additional responses for Nette Framework",
-            "homepage": "http://ublaboo.paveljanda.com/responses",
-            "keywords": [
-                "csv",
-                "image",
-                "json",
-                "nette",
-                "responses"
-            ],
-            "time": "2016-01-20 15:58:41"
         }
     ],
     "aliases": [],

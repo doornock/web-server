@@ -128,6 +128,7 @@ class NodeManager implements ApiKeyGenerator
 			$this->entityManager->remove($door);
 		}
 		$this->entityManager->remove($node);
+		$this->entityManager->flush();
 	}
 
 

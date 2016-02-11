@@ -18,6 +18,8 @@ use Nette\Http\IResponse;
 class NodeDetailPresenter extends BasePresenter
 {
 
+	use \Nextras\Application\UI\SecuredLinksPresenterTrait;
+
 	/** @var DoorGridFactory @inject */
 	public $gridFactory;
 
@@ -92,6 +94,7 @@ class NodeDetailPresenter extends BasePresenter
 
 
 	/**
+	 * @secured
 	 * @param int $doorId
 	 */
 	public function handleDeleteDoor($doorId)
@@ -104,6 +107,17 @@ class NodeDetailPresenter extends BasePresenter
 			$this->flashMessage('Door not found', 'danger');
 			$this->redirect('default');
 		}
+	}
+
+	/**
+	 * @secured
+	 */
+	public function handleDeleteNode()
+	{
+		$nodeId = $this->node->getId();
+		$this->nodeManager->removeNode($this->node);
+		$this->flashMessage('Node ' . $nodeId . ' was deleted', 'success');
+		$this->redirect('Node:');
 	}
 
 
