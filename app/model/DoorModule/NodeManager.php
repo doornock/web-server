@@ -66,7 +66,12 @@ class NodeManager implements ApiKeyGenerator
 	}
 
 
-
+	/**
+	 * Add door to node
+	 * @param Node $node
+	 * @param string $title
+	 * @param int $openingTime opening time in seconds
+	 */
 	public function addDoor(Node $node, $title, $openingTime)
 	{
 		$door = new Door($node, $title);

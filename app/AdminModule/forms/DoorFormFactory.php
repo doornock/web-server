@@ -38,7 +38,7 @@ class DoorFormFactory extends Object
 			->addRule(Form::NUMERIC, 'Opening time must be only number (without "s", etc.)')
 			->addRule(Form::RANGE, 'Opening time must be 1s to 30s', array(1, 30));
 
-		$form->addSubmit('send', $door ? 'Edit door' : 'Add door');
+		$form->addSubmit('send', $door ? 'Update door' : 'Add door');
 
 		if ($door) {
 			$form->setDefaults(array(
