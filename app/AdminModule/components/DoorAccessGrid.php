@@ -2,15 +2,14 @@
 
 namespace Doornock\AdminModule\Components;
 
-use Doornock\Model\DoorModule\WithAccessDoorQuery;
+use Doornock\Model\DoorModule\AccessDoorQuery;
 use Doornock\Model\DoorModule\Door;
 use Doornock\Model\DoorModule\DoorRepository;
-use Doornock\Model\DoorModule\Node;
 use Doornock\Model\UserModule\User;
 use Nette;
 use Nextras;
 
-class DoorWithAccessGridFactory extends Nette\Object
+class DoorAccessGridFactory extends Nette\Object
 {
 
 	/**
@@ -29,19 +28,42 @@ class DoorWithAccessGridFactory extends Nette\Object
 		$grid = new Nextras\Datagrid\Datagrid;
 		$grid->addColumn('id');
 		$grid->addColumn('title', 'Title');
+		$grid->addColumn('access', 'Access');
 
-		$grid->setColumnGetterCallback(function (Door $row, $column) {
+		$grid->setColumnGetterCallback(function (array $row, $column) {
 			if ($column === 'id') {
-				return $row->getId();
+				return $row[0]->getId();
 			} else if ($column === 'title') {
-				return $row->getTitle();
+				return $row[0]->getTitle();
+			} else if ($column === 'access') {
+				return $row['access'] ? "Yes" : "No";
 			}
 			return '?' . $column;
 		});
 
+		$grid->setFilterFormFactory(function () {
+			$form = new Nette\Forms\Container;
+			$form->addText('title');
+
+			$form->addSelect('access', '', array(
+				FALSE => 'Without access',
+				TRUE => 'Has access'
+			))->setPrompt('All');
+			return $form;
+		});
+
 		$q = function ($filter, $order) use ($user) {
-			$q = new WithAccessDoorQuery();
+			$q = new AccessDoorQuery();
 			$q->setUser($user);
+
+			if (isset($filter['title'])) {
+				$q->searchByTitle($filter['title']);
+			}
+
+			if (isset($filter['access'])) {
+				$q->byAccess((bool) $filter['access']);
+			}
+
 			return $q;
 		};
 

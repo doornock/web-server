@@ -5,18 +5,26 @@ namespace Doornock\AdminModule\Presenters;
 
 use Doornock\AdminModule\Components\DeviceGridFactory;
 use Doornock\AdminModule\Components\DoorAccessGridFactory;
+use Doornock\AdminModule\Components\DoorWithAccessGridFactory;
 use Doornock\AdminModule\Forms\AddUserFormFactory;
 use Doornock\AdminModule\Forms\ChangePasswordFormFactory;
 use Doornock\AdminModule\Forms\ChangeRoleFormFactory;
+use Doornock\Model\DoorModule\AccessManager;
 use Doornock\Model\DoorModule\DeviceManager;
 use Doornock\Model\DoorModule\DeviceNotFoundException;
+use Doornock\Model\DoorModule\Door;
+use Doornock\Model\DoorModule\DoorRepository;
 use Doornock\Model\UserModule\User;
 use Doornock\Model\UserModule\UserManager;
 use Doornock\Model\UserModule\UserRepository;
 use Nette\Http\IResponse;
+use Nextras\Application\UI\SecuredLinksPresenterTrait;
 
 class UserDetailPresenter extends BasePresenter
 {
+
+	use SecuredLinksPresenterTrait;
+
 	/** @var AddUserFormFactory @inject */
 	public $addUserFormFactory;
 
@@ -33,20 +41,30 @@ class UserDetailPresenter extends BasePresenter
 	public $deviceGridFactory;
 
 
+	/** @var DoorWithAccessGridFactory @inject */
+	public $doorWithAccessGridFactory;
+
 	/** @var DoorAccessGridFactory @inject */
 	public $doorAccessGridFactory;
-
 
 	/** @var UserRepository */
 	public $userRepository;
 
 
-	/** @var UserManager */
+	/** @var UserManager @inject */
 	public $userManager;
 
 
 	/** @var DeviceManager @inject */
 	public $deviceManager;
+
+
+	/** @var AccessManager @inject */
+	public $accessManager;
+
+
+	/** @var DoorRepository */
+	private $doorRepository;
 
 
 	/**
@@ -63,11 +81,15 @@ class UserDetailPresenter extends BasePresenter
 	private $selectedUser;
 
 
-	public function __construct(UserRepository $userRepository, UserManager $userManager)
+	/** @var bool */
+	private $allowChangeAccess;
+
+
+	public function __construct(UserRepository $userRepository, DoorRepository $doorRepository)
 	{
 		parent::__construct();
 		$this->userRepository = $userRepository;
-		$this->userManager = $userManager;
+		$this->doorRepository = $doorRepository;
 	}
 
 
@@ -88,9 +110,53 @@ class UserDetailPresenter extends BasePresenter
 			$this->flashMessage('User not found!', 'danger');
 			$this->redirect('default');
 		}
+
+		$this->allowChangeAccess = $this->user->isAllowed('admin_nodes', 'change_access');
 	}
 
 
+	/**
+	 * @secured
+	 */
+	public function handleAllowAccess($doorId)
+	{
+		if (!$this->allowChangeAccess) {
+			$this->error('No access', IResponse::S403_FORBIDDEN);
+		}
+		$door = $this->doorRepository->find($doorId); /** @var $door Door */
+		if (!$door) {
+			$this->flashMessage('Door not found', 'danger');
+			$this->redirect('this');
+		}
+
+		$this->accessManager->allow($this->selectedUser, $door);
+		$this->redirect('this');
+	}
+
+
+	/**
+	 * @secured
+	 */
+	public function handleDenyAccess($doorId)
+	{
+		if (!$this->allowChangeAccess) {
+			$this->error('No access', IResponse::S403_FORBIDDEN);
+		}
+
+		$door = $this->doorRepository->find($doorId);  /** @var $door Door */
+		if (!$door) {
+			$this->flashMessage('Door not found', 'danger');
+			$this->redirect('this');
+		}
+
+		$this->accessManager->deny($this->selectedUser, $door);
+		$this->redirect('this');
+	}
+
+
+	/**
+	 * @secured
+	 */
 	public function handleBlockDevice($deviceId)
 	{
 		try {
@@ -111,6 +177,7 @@ class UserDetailPresenter extends BasePresenter
 		$this->template->selectedUser = $this->selectedUser;
 		$this->template->isYou = $isYou = $this->selectedUser->getId() === $this->user->getId();
 		$this->template->allowChangeRole = !$isYou && $this->user->isAllowed('admin_users', 'change_role');
+		$this->template->allowChangeAccess = $this->allowChangeAccess;
 	}
 
 
@@ -152,12 +219,19 @@ class UserDetailPresenter extends BasePresenter
 	}
 
 
-	public function createComponentDoorAccessGrid()
+	public function createComponentDoorWithAccessGrid()
 	{
-		$grid = $this->doorAccessGridFactory->create($this->selectedUser);
+		$grid = $this->doorWithAccessGridFactory->create($this->selectedUser);
 		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
 		return $grid;
 	}
 
 
+	public function createComponentDoorAccessGrid()
+	{
+		$grid = $this->doorAccessGridFactory->create($this->selectedUser);
+		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
+		$grid->addCellsTemplate(__DIR__ . '/templates/UserDetail/AccessGrid.latte');
+		return $grid;
+	}
 }

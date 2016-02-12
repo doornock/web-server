@@ -1,0 +1,7 @@
+{define row-actions}
+	{if $row['access']}
+		<a href="{plink denyAccess!, $row[0]->getId()}">Deny access</a>
+	{else}
+		<a href="{plink allowAccess!, $row[0]->getId()}">Allow access</a>
+	{/if}
+{/define}

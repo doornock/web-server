@@ -25,17 +25,31 @@
 		<!-- /.box-body -->
 	</div>
 
-
 	<div class="box">
 		<div class="box-header">
-			<h3 class="box-title">You have access to these doors</h3>
+			<h3 class="box-title">{if $isYou}You have{else}This user has{/if} access to these doors</h3>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body no-padding">
-			{control doorAccessGrid}
+			{control doorWithAccessGrid}
 		</div>
 		<!-- /.box-body -->
 	</div>
+
+	{if $allowChangeAccess}
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">Change access to this user</h3>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body no-padding">
+				{control doorAccessGrid}
+			</div>
+			<!-- /.box-body -->
+		</div>
+	{/if}
+
+
 
 </div>
 <div class="col-md-4">

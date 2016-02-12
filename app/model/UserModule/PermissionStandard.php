@@ -22,6 +22,7 @@ class PermissionStandard extends Permission
 		$this->addResource('admin_nodes', 'admin');
 
 		$this->allow(Roles::ADMINISTRATOR, 'admin_nodes');
+		$this->allow(Roles::ADMINISTRATOR, 'admin_nodes', 'change_access');
 
 		$this->allow(Roles::ADMINISTRATOR, 'admin_users');
 		$this->allow(Roles::ADMINISTRATOR, 'admin_users', 'change_password_without_actual');
