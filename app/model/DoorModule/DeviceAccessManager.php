@@ -42,7 +42,7 @@ class DeviceAccessManager
 	public function findDoorWithAccess($apiKey)
 	{
 		$device = $this->getDevice($apiKey);
-		return $this->accessManager->findDoorWithAccess($device->getOwner())->toArray();
+		return $this->accessManager->findDoorWithAccess($device->getOwner());
 	}
 
 

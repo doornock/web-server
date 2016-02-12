@@ -17,7 +17,7 @@ class DeviceRepository extends EntityDao
 	 */
 	public function getDeviceByApiKey($apiKey)
 	{
-		$device = $this->deviceRepository->findOneBy(array(
+		$device = $this->findOneBy(array(
 			"apiKey" => $apiKey
 		)); /** @var $device Device */
 

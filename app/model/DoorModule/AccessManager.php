@@ -48,7 +48,7 @@ class AccessManager
 	public function findDoorWithAccess(User $user)
 	{
 		$q = new WithAccessDoorQuery();
-		$q->setUser($user->getOwner());
+		$q->setUser($user);
 
 		return $this->doorRepository->fetch($q)->toArray();
 	}

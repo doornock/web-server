@@ -28,26 +28,17 @@ class DoorPresenter extends BasePresenter
 	{
 		$doors = $this->deviceManager->findDoorWithAccess($api_key);
 
-		$doors = array();
+		$return = array();
 
 		foreach ($doors as $door) { /** @var Door $door */
 			$obj = new \stdClass();
 			$obj->id = $door->getId();
 			$obj->title = $door->getTitle();
 			$obj->access = TRUE; // @todo maybe remove?
-			$doors[] = $obj;
+			$return[] = $obj;
 		}
 
-		/** @todo */
-		for ($i = 0; $i < 5; $i++) {
-			$obj = new \stdClass();
-			$obj->id = $i;
-			$obj->title = "Dveře" . $i;
-			$obj->access = true;
-			$doors[] = $obj;
-		}
-
-		$this->sendSuccess($doors);
+		$this->sendSuccess($return);
 	}
 
 
