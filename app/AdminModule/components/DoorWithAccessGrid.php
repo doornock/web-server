@@ -2,7 +2,7 @@
 
 namespace Doornock\AdminModule\Components;
 
-use Doornock\Model\DoorModule\AccessDoorQuery;
+use Doornock\Model\DoorModule\WithAccessDoorQuery;
 use Doornock\Model\DoorModule\Door;
 use Doornock\Model\DoorModule\DoorRepository;
 use Doornock\Model\DoorModule\Node;
@@ -10,7 +10,7 @@ use Doornock\Model\UserModule\User;
 use Nette;
 use Nextras;
 
-class DoorAccessGridFactory extends Nette\Object
+class DoorWithAccessGridFactory extends Nette\Object
 {
 
 	/**
@@ -49,7 +49,7 @@ class DoorAccessGridFactory extends Nette\Object
 		});
 
 		$q = function ($filter, $order) use ($user) {
-			$q = new AccessDoorQuery();
+			$q = new WithAccessDoorQuery();
 			$q->setUser($user);
 			return $q;
 		};

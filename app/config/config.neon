@@ -68,3 +68,4 @@ services:
 	- Doornock\AdminModule\Components\DoorGridFactory
 	- Doornock\AdminModule\Forms\DoorFormFactory
 	- Doornock\AdminModule\Components\DoorAccessGridFactory
+	- Doornock\AdminModule\Components\DoorWithAccessGridFactory

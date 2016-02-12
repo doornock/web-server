@@ -47,7 +47,7 @@ class AccessManager
 	 */
 	public function findDoorWithAccess(User $user)
 	{
-		$q = new AccessDoorQuery();
+		$q = new WithAccessDoorQuery();
 		$q->setUser($user->getOwner());
 
 		return $this->doorRepository->fetch($q)->toArray();
@@ -78,6 +78,9 @@ class AccessManager
 	 */
 	public function allow(User $user, Door $door)
 	{
+		if ($this->hasAccess($user, $door)) {
+			return;
+		}
 		$door = new UserAccess($user, $door);
 		$this->entityManager->persist($door);
 		$this->entityManager->flush();

@@ -12,7 +12,7 @@ use Kdyby\Persistence\Queryable;
 /**
  * Query object to find doors which has user access
  */
-class AccessDoorQuery extends QueryObject
+class WithAccessDoorQuery extends QueryObject
 {
 
 	/** @var User */
