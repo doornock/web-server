@@ -4,6 +4,7 @@ namespace Doornock\Model\DoorModule;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Validators;
 
 /**
  * Nodes
@@ -49,6 +50,13 @@ class Node
 	 * @var Collection
 	 */
 	private $doors;
+
+
+	/**
+	 * @ORM\Column(name="http_ip_address", type="string", nullable=false, options={"comment":"API http URL"})
+	 * @var string
+	 */
+	private $apiEndpointUrl;
 
 
 
@@ -124,6 +132,28 @@ class Node
 	public function getDoors()
 	{
 		return $this->doors->getValues();
+	}
+
+	/**
+	 * HTTP API URL, if it is standard client, contain: http://{ip/hostname}:{port}/
+	 * @return string
+	 */
+	public function getApiEndpointUrl()
+	{
+		return $this->apiEndpointUrl;
+	}
+
+	/**
+	 * HTTP API URL, if it is standard client, contain: http://{ip/hostname}:{port}/
+	 * @example http://192.168.3.2:5555/
+	 * @param string $apiEndpointUrl
+	 */
+	public function setApiEndpointUrl($apiEndpointUrl)
+	{
+		if (!Validators::isUrl($apiEndpointUrl)) {
+			throw new \InvalidArgumentException('Api endpoint is not valid URL');
+		}
+		$this->apiEndpointUrl = $apiEndpointUrl;
 	}
 
 

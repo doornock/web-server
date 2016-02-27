@@ -43,16 +43,16 @@ class NodeManager implements ApiKeyGenerator
 	/**
 	 * Add new node and register them doors
 	 * @param string $title
+	 * @param string $urlEndpoint
 	 * @param array[doorId=>title] $doors
-	 * @param bool $nfcAvailable
 	 * @return Node
 	 */
-	public function addNode($title, array $doors = array(), $nfcAvailable = TRUE)
+	public function addNode($title, $urlEndpoint, array $doors = array())
 	{
 		$node = new Node();
 		$node->setTitle($title);
 		$node->regenerateApiKey($this);
-		$node->setAvailabilityNfc($nfcAvailable);
+		$node->setApiEndpointUrl($urlEndpoint);
 		$this->entityManager->persist($node);
 
 		foreach ($doors as $title) {
@@ -63,6 +63,24 @@ class NodeManager implements ApiKeyGenerator
 		$this->entityManager->flush();
 
 		return $node;
+	}
+
+
+	/**
+	 * Update node
+	 * @param Node $node
+	 * @param string $title
+	 * @param string $endPointUrl
+	 * @param bool $regenerateApi if is true, API key will be regenerated!
+	 */
+	public function updateNode(Node $node, $title, $endPointUrl, $regenerateApi = FALSE)
+	{
+		$node->setTitle($title);
+		$node->setApiEndpointUrl($endPointUrl);
+		if ($regenerateApi) {
+			$node->regenerateApiKey($this);
+		}
+		$this->entityManager->flush();
 	}
 
 

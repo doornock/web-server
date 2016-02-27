@@ -5,7 +5,7 @@ namespace Doornock\AdminModule\Presenters;
 
 
 use Doornock\AdminModule\Components\NodeGridFactory;
-use Doornock\AdminModule\Forms\AddNodeFormFactory;
+use Doornock\AdminModule\Forms\NodeFormFactory;
 use Doornock\Model\DoorModule\Node;
 use Doornock\Model\DoorModule\NodeRepository;
 use Nette\Application\UI\Form;
@@ -18,8 +18,8 @@ class NodePresenter extends BasePresenter
 	public $gridFactory;
 
 
-	/** @var AddNodeFormFactory @inject */
-	public $addNodeFormFactory;
+	/** @var NodeFormFactory @inject */
+	public $nodeFormFactory;
 
 
 
@@ -43,7 +43,7 @@ class NodePresenter extends BasePresenter
 
 	public function createComponentAddForm()
 	{
-		return $this->addNodeFormFactory->create(function (Form $form, Node $node) {
+		return $this->nodeFormFactory->create(function (Form $form, Node $node) {
 			$this->flashMessage(sprintf("Node '%s' was successfully added", $node->getId()), 'success');
 			$this->redirect('NodeDetail:', array('nodeId' => $node->getId()));
 		});

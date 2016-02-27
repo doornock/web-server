@@ -28,11 +28,17 @@
 						<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
 						{input title, class => "form-control"}
 					</div>
+					<div class="form-group">
+						{label endpoint_url /}
+						<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
+						{input endpoint_url, class => "form-control"}
+					</div>
+{*
 					<div class="form-group checkbox">
 						<p class="alert alert-warning" n:foreach="$form['nfc_available']->getErrors() as $error">{$error}</p>
 						{input nfc_available, class => "form-control"}
 					</div>
-
+*}
 			</div>
 			<div class="box-footer">
 				{input send, class => "btn btn-info pull-right"}

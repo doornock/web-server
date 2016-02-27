@@ -20,15 +20,21 @@ class DeviceAccessManager
 	/** @var AccessManager */
 	private $accessManager;
 
+	/** @var Opener */
+	private $opener;
+
+
 	/**
 	 * DeviceAccessManager constructor.
 	 * @param DeviceRepository $deviceRepository
 	 * @param AccessManager $accessManager
+	 * @param Opener $opener to open doors
 	 */
-	public function __construct(DeviceRepository $deviceRepository, AccessManager $accessManager)
+	public function __construct(DeviceRepository $deviceRepository, AccessManager $accessManager, Opener $opener)
 	{
 		$this->deviceRepository = $deviceRepository;
 		$this->accessManager = $accessManager;
+		$this->opener = $opener;
 	}
 
 
@@ -50,15 +56,22 @@ class DeviceAccessManager
 	 * Open door
 	 * @param string $apiKey device api key
 	 * @param string $doorId
-	 * @todo implement it!
+	 * @return bool if successful, if no access return false
 	 * @throws ApiKeyNotFoundException if api key is not found
 	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
 	public function openDoor($apiKey, $doorId)
 	{
 		$device = $this->getDevice($apiKey);
+		$doors = $this->accessManager->findDoorWithAccess($device->getOwner());
 
-		throw new Nette\NotImplementedException;
+		foreach ($doors as $door) { /** @var $door Door */
+			if ((string)$door->getId() === $doorId) {
+				return $this->opener->openDoor($door);
+			}
+		}
+
+		return FALSE;
 	}
 
 

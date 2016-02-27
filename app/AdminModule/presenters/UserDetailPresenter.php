@@ -10,15 +10,19 @@ use Doornock\AdminModule\Forms\AddUserFormFactory;
 use Doornock\AdminModule\Forms\ChangePasswordFormFactory;
 use Doornock\AdminModule\Forms\ChangeRoleFormFactory;
 use Doornock\Model\DoorModule\AccessManager;
+use Doornock\Model\DoorModule\AccessUnauthorizedException;
 use Doornock\Model\DoorModule\DeviceManager;
 use Doornock\Model\DoorModule\DeviceNotFoundException;
 use Doornock\Model\DoorModule\Door;
 use Doornock\Model\DoorModule\DoorRepository;
+use Doornock\Model\DoorModule\NodeExecuteCommandException;
+use Doornock\Model\DoorModule\WebAccessManager;
 use Doornock\Model\UserModule\User;
 use Doornock\Model\UserModule\UserManager;
 use Doornock\Model\UserModule\UserRepository;
 use Nette\Http\IResponse;
 use Nextras\Application\UI\SecuredLinksPresenterTrait;
+use Tracy\Debugger;
 
 class UserDetailPresenter extends BasePresenter
 {
@@ -61,6 +65,9 @@ class UserDetailPresenter extends BasePresenter
 
 	/** @var AccessManager @inject */
 	public $accessManager;
+
+	/** @var WebAccessManager @inject */
+	public $webAccessManager;
 
 
 	/** @var DoorRepository */
@@ -171,6 +178,31 @@ class UserDetailPresenter extends BasePresenter
 	}
 
 
+	/**
+	 * @secured
+	 */
+	public function handleOpenDoor($doorId)
+	{
+		try {
+			if ($this->webAccessManager->openDoor($doorId)) {
+				$this->flashMessage('Door was successfully opened', 'success');
+			} else {
+				$this->flashMessage('No access, or door not found', 'warning');
+			}
+		} catch (AccessUnauthorizedException $e) {
+			$this->flashMessage('No access', 'danger');
+		} catch (NodeExecuteCommandException $e) {
+			if (Debugger::$productionMode) {
+				Debugger::log($e);
+			} else {
+				throw $e;
+			}
+			$this->flashMessage('Door terminal (node) is not working, need technical support', 'danger');
+		}
+		$this->redirect('this');
+	}
+
+
 
 	public function renderDefault()
 	{
@@ -223,6 +255,7 @@ class UserDetailPresenter extends BasePresenter
 	{
 		$grid = $this->doorWithAccessGridFactory->create($this->selectedUser);
 		$grid->addCellsTemplate(__DIR__ . '/templates/BaseGrid.latte');
+		$grid->addCellsTemplate(__DIR__ . '/templates/UserDetail/WithAccessGrid.latte');
 		return $grid;
 	}
 

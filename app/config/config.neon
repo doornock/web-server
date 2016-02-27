@@ -42,6 +42,8 @@ services:
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 
+	- Doornock\Model\DoorModule\HttpOpenDoor
+
 	- Doornock\Model\UserModule\PermissionStandard
 	- Doornock\Model\UserModule\Roles
 	- Doornock\Model\UserModule\Authenticator
@@ -57,6 +59,7 @@ services:
 
 	- Doornock\Model\DoorModule\DoorRepository
 	- Doornock\Model\DoorModule\AccessManager
+	- Doornock\Model\DoorModule\WebAccessManager
 
 	- Doornock\AdminModule\Forms\ChangeRoleFormFactory
 	- Doornock\AdminModule\Forms\ChangePasswordFormFactory
@@ -64,7 +67,7 @@ services:
 	- Doornock\AdminModule\Components\UserGridFactory
 	- Doornock\AdminModule\Components\DeviceGridFactory
 	- Doornock\AdminModule\Components\NodeGridFactory
-	- Doornock\AdminModule\Forms\AddNodeFormFactory
+	- Doornock\AdminModule\Forms\NodeFormFactory
 	- Doornock\AdminModule\Components\DoorGridFactory
 	- Doornock\AdminModule\Forms\DoorFormFactory
 	- Doornock\AdminModule\Components\DoorAccessGridFactory

@@ -63,6 +63,9 @@ class AccessUnauthorizedException extends \Exception
 	/** Component to authentication declines verification */
 	const VERIFICATION_FAILED = 8;
 
+	/** While request, where user is not known, but will be internally delivered */
+	const USER_NOT_FOUND = 16;
+
 
 	/**
 	 * AccessUnauthorizedException constructor.
@@ -81,4 +84,7 @@ class DeviceNotFoundException extends \Exception
 {}
 
 class DoorIdNotFoundException extends \Exception
+{}
+
+class NodeExecuteCommandException extends \Exception
 {}

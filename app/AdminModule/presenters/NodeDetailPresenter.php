@@ -5,7 +5,7 @@ namespace Doornock\AdminModule\Presenters;
 
 
 use Doornock\AdminModule\Components\DoorGridFactory;
-use Doornock\AdminModule\Forms\AddNodeFormFactory;
+use Doornock\AdminModule\Forms\NodeFormFactory;
 use Doornock\AdminModule\Forms\DoorFormFactory;
 use Doornock\Model\DoorModule\DoorIdNotFoundException;
 use Doornock\Model\DoorModule\DoorRepository;
@@ -23,8 +23,8 @@ class NodeDetailPresenter extends BasePresenter
 	/** @var DoorGridFactory @inject */
 	public $gridFactory;
 
-	/** @var AddNodeFormFactory @inject */
-	public $addNodeFormFactory;
+	/** @var NodeFormFactory @inject */
+	public $nodeFormFactory;
 
 	/** @var DoorFormFactory @inject */
 	public $doorFormFactory;
@@ -134,6 +134,15 @@ class NodeDetailPresenter extends BasePresenter
 			$form->setValues(array());
 		});
 	}
+
+
+	public function createComponentEditNodeForm()
+	{
+		return $this->nodeFormFactory->create(function (Form $form) {
+			$this->flashMessage('Updated');
+		}, $this->node);
+	}
+
 
 
 	public function createComponentDoorGrid()
