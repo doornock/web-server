@@ -74,6 +74,10 @@ class DevicePresenter extends BasePresenter
 	 */
 	public function actionRegister($username, $password)
 	{
+		if ($username === NULL) {
+			$this->sendRequestError(400, 'Missing username parameter');
+		}
+
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
 
@@ -99,6 +103,10 @@ class DevicePresenter extends BasePresenter
 	 */
 	public function actionUpdate($api_key)
 	{
+		if ($api_key === NULL) {
+			$this->sendRequestError(400, 'Missing api_key parameter');
+		}
+
 		$description = $this->request->getPost('description');
 		$publicKey = $this->request->getPost('public_key');
 

@@ -29,8 +29,8 @@ class NodePresenter extends BasePresenter
 
 	public function actionDevicePermission($device_id)
 	{
-		if (!$device_id) {
-			$this->sendRequestError(404, 'Missing device_id parameter');
+		if ($device_id === NULL) {
+			$this->sendRequestError(400, 'Missing device_id parameter');
 		}
 
 		$device = $this->deviceRepository->find($device_id); /** @var $device Device */

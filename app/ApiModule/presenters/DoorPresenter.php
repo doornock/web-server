@@ -28,6 +28,9 @@ class DoorPresenter extends BasePresenter
 
 	public function actionList($api_key)
 	{
+		if ($api_key === NULL) {
+			$this->sendRequestError(400, 'Missing api_key parameter');
+		}
 		try {
 			$doors = $this->deviceManager->findDoorWithAccess($api_key);
 
@@ -52,6 +55,12 @@ class DoorPresenter extends BasePresenter
 
 	public function actionOpen($api_key, $door_id)
 	{
+		if ($api_key === NULL) {
+			$this->sendRequestError(400, 'Missing api_key parameter');
+		}
+		if ($door_id === NULL) {
+			$this->sendRequestError(400, 'Missing door_id parameter');
+		}
 		try {
 			if ($this->deviceManager->openDoor($api_key, $door_id)) {
 				$this->sendSuccess();
