@@ -19,6 +19,7 @@ class Router extends RouteList
 		$this[] = new Route("api/v1/device/door/<action>", "Door:");
 		$this[] = new Route("api/v1/site/<action>", "Site:");
 		$this[] = new Route("api/v1/user/<action>", "User:");
+		$this[] = new Route("api/v1/node/<action>", "Node:");
 	}
 
 }

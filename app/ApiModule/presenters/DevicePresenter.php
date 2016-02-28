@@ -52,7 +52,8 @@ class DevicePresenter extends BasePresenter
 
 
 	/**
-	 * @todo refactor to API scheme
+	 * @todo remove
+	 * @deprecated see Node:DevicePermission
 	 * @param string $deviceId
 	 */
 	public function actionGetPublicKey($deviceId)
