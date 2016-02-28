@@ -10,10 +10,13 @@ use Doornock\AdminModule\Forms\DoorFormFactory;
 use Doornock\Model\DoorModule\DoorIdNotFoundException;
 use Doornock\Model\DoorModule\DoorRepository;
 use Doornock\Model\DoorModule\Node;
+use Doornock\Model\DoorModule\NodeExecuteCommandException;
 use Doornock\Model\DoorModule\NodeManager;
 use Doornock\Model\DoorModule\NodeRepository;
+use Doornock\Model\DoorModule\Opener;
 use Nette\Forms\Form;
 use Nette\Http\IResponse;
+use Tracy\Debugger;
 
 class NodeDetailPresenter extends BasePresenter
 {
@@ -28,6 +31,9 @@ class NodeDetailPresenter extends BasePresenter
 
 	/** @var DoorFormFactory @inject */
 	public $doorFormFactory;
+
+	/** @var Opener @inject */
+	public $opener;
 
 	/** @var NodeRepository  */
 	private $nodeRepository;
@@ -118,6 +124,31 @@ class NodeDetailPresenter extends BasePresenter
 		$this->nodeManager->removeNode($this->node);
 		$this->flashMessage('Node ' . $nodeId . ' was deleted', 'success');
 		$this->redirect('Node:');
+	}
+
+
+	/**
+	 * @secured
+	 */
+	public function handleOpenDoor($doorId)
+	{
+		try {
+			foreach ($this->node->getDoors() as $door) {
+				if ((string)$door->getId() === $doorId) {
+					$this->opener->openDoor($door);
+					$this->flashMessage('Door is opened', 'success');
+					$this->redirect('this');
+				}
+			}
+		} catch (NodeExecuteCommandException $e) {
+			if (Debugger::$productionMode) {
+				Debugger::log($e);
+			} else {
+				throw $e;
+			}
+		}
+		$this->flashMessage('Door is not found or node does not work', 'danger');
+		$this->redirect('this');
 	}
 
 

@@ -3,20 +3,43 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		Boxed Layout
-		<small>Blank example to the boxed layout</small>
+		{$siteInfo->getTitle()}
+		<small>{$siteInfo->getGuid()}</small>
 	</h1>
+	{*
 	<ol class="breadcrumb">
 		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 		<li><a href="#">Layout</a></li>
 		<li class="active">Boxed</li>
 	</ol>
+	*}
 </section>
 
 <!-- Main content -->
 <section class="content">
 
 	<div class="row">
+		<div class="col-lg-3 col-xs-6" n:foreach="$accessTo as $door">
+			<!-- small box -->
+			<div class="small-box bg-green">
+				<div class="inner">
+					<h3>{$door->getTitle()}</h3>
+
+					<p>{$door->getNode()->getTitle()}</p>
+				</div>
+				<div class="icon">
+					<i class="ion ion-bag"></i>
+				</div>
+				<a n:href="openDoor!, $door->getId()" class="small-box-footer">Open door <i class="fa fa-arrow-circle-right"></i></a>
+			</div>
+		</div>
+		{if !$accessTo}
+			<div class="callout callout-info">
+				<h4>Welcome!</h4>
+				<p>Your account have no access to any doors</p>
+			</div>
+		{/if}
+		{*
 		<div class="col-lg-3 col-xs-6">
 			<!-- small box -->
 			<div class="small-box bg-aqua">
@@ -77,8 +100,9 @@
 			</div>
 		</div>
 		<!-- ./col -->
+		*}
 	</div>
-
+{*
 	<div class="callout callout-info">
 		<h4>Tip!</h4>
 		<p>Add the layout-boxed class to the body tag to get this layout. The boxed layout is helpful when working on large screens because it prevents the site from stretching very wide.</p>
@@ -99,5 +123,6 @@
 			Footer
 		</div><!-- /.box-footer-->
 	</div><!-- /.box -->
+*}
 </section><!-- /.content -->
 

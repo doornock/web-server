@@ -3,7 +3,13 @@
 # https://nette.org/security-warning
 #
 parameters:
-
+	database:
+		user: root
+		password:
+		dbname: doornock
+	site:
+		guid:
+		title:
 
 
 php:
@@ -39,6 +45,7 @@ latte:
         - Nextras\Latte\Macros\RedefineMacro::install
 
 services:
+	- Doornock\Model\DoorModule\SiteInformation(%site.guid%, %site.title%)
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 

@@ -1,0 +1,16 @@
+<li class="dropdown user user-menu">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+			{$user->identity->getUsername()}
+	</a>
+	<ul class="dropdown-menu">
+		<!-- Menu Footer-->
+		<li class="user-footer">
+			<div class="pull-left">
+				<a n:href="UserDetail:" class="btn btn-default btn-flat">Your account</a>
+			</div>
+			<div class="pull-right">
+				<a n:href=":Front:Sign:out" class="btn btn-default btn-flat">Sign out</a>
+			</div>
+		</li>
+	</ul>
+</li>

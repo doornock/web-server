@@ -1,3 +1,4 @@
 {define row-actions}
-		<a href="{plink NodeDetail:editDoor, doorId => $row->getId()}">Edit (or Delete)</a>
+		<a href="{plink NodeDetail:editDoor, doorId => $row->getId()}">Edit (or Delete)</a> |
+		<a href="{plink openDoor!, doorId => $row->getId()}">Open door</a>
 {/define}
