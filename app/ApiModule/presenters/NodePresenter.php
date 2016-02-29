@@ -42,7 +42,10 @@ class NodePresenter extends BasePresenter
 
 		$doorsId = array();
 		foreach ($accessTo as $door) {
-			$doorsId[] = (string) $door->getId();
+			$doorsId[] = array(
+				'id' => (string) $door->getId(),
+				'opening_time' => $door->getOpeningTime(),
+			);
 		}
 
 		$this->sendSuccess(array(
