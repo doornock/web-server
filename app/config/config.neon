@@ -46,6 +46,7 @@ latte:
 
 services:
 	- Doornock\Model\DoorModule\SiteInformation(%site.guid%, %site.title%)
+	- Doornock\Model\DoorModule\YamlGenerator
 	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 

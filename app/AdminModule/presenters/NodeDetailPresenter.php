@@ -14,6 +14,7 @@ use Doornock\Model\DoorModule\NodeExecuteCommandException;
 use Doornock\Model\DoorModule\NodeManager;
 use Doornock\Model\DoorModule\NodeRepository;
 use Doornock\Model\DoorModule\Opener;
+use Doornock\Model\DoorModule\YamlGenerator;
 use Nette\Forms\Form;
 use Nette\Http\IResponse;
 use Tracy\Debugger;
@@ -49,6 +50,9 @@ class NodeDetailPresenter extends BasePresenter
 
 	/** @var Node */
 	private $node;
+
+	/** @var YamlGenerator @inject */
+	public $configurationGenerator;
 
 	/**
 	 * NodeDetailPresenter constructor.
@@ -155,6 +159,7 @@ class NodeDetailPresenter extends BasePresenter
 	public function renderDefault()
 	{
 		$this->template->node = $this->node;
+		$this->template->yamlConfiguration = $this->configurationGenerator->generate($this->node);
 	}
 
 

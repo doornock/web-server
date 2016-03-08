@@ -7,9 +7,9 @@ interface ConfigurationGenerator
 
 	/**
 	 * Generate configuration "file" as text output - etc. yaml
-	 * @param string $nodeId
+	 * @param Node $node
 	 * @return string
 	 */
-	function generate($nodeId);
+	function generate(Node $node);
 
 }

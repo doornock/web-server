@@ -136,7 +136,7 @@ class Node
 
 	/**
 	 * HTTP API URL, if it is standard client, contain: http://{ip/hostname}:{port}/
-	 * @return string
+	 * @return string|null
 	 */
 	public function getApiEndpointUrl()
 	{
