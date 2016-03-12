@@ -57,6 +57,7 @@ class YamlGenerator implements ConfigurationGenerator
 			$url = new Url($node->getApiEndpointUrl());
 			$config['httpApi'] = array(
 				'url' => $this->apiUrl ?: "# write here url server here server like http://mylock.home.com/api",
+				'nodeId' => (string) $node->getId(),
 				'apiKey' => $node->getApiKey(),
 				'port' => $url->getPort()
 			);

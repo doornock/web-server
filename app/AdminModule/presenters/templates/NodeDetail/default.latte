@@ -10,7 +10,7 @@
 		<div class="box-body">
 			Id: {$node->getId()} <br>
 			Title: {$node->getTitle()} <br>
-			API (secret) key: <code>{$node->getApiKey()}</code>
+			API (secret) key: <input value="{$node->getApiKey()}" readonly />
 		</div>
 		<!-- /.box-body -->
 	</div>
@@ -70,7 +70,7 @@
 		</div>
 
 		<div class="box-body no-padding">
-			<textarea style="width:100%" disabled>{$yamlConfiguration}</textarea>
+			<textarea style="width:100%" readonly>{$yamlConfiguration}</textarea>
 		</div>
 	</div>
 	<div class="box">
