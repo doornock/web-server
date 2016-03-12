@@ -2,22 +2,25 @@
 
 namespace Doornock\ApiModule\Presenters;
 
+use Doornock\ApiModule\JsonApiResponse;
 use Nette\Application\UI\Presenter;
 use Nette\Application\Responses\JsonResponse;
 
 abstract class BasePresenter extends Presenter
 {
 
+
 	/**
 	 * Sends success as response
 	 * @param mixed $data data which is possible to represented as JSON
+	 * @param string|NULL $signKey if you want sign response by hmac256, fill this key
 	 */
-	public function sendSuccess($data = array())
+	public function sendSuccess($data = array(), $signKey = NULL)
 	{
-		$this->sendResponse(new JsonResponse(array(
+		$this->sendResponse(new JsonApiResponse(array(
 			'status' => "OK",
 			'data' => $data
-		)));
+		), $signKey));
 	}
 
 

@@ -6,6 +6,7 @@ use Doornock\Model\DoorModule\AccessManager;
 use Doornock\Model\DoorModule\Device;
 use Doornock\Model\DoorModule\DeviceAccessManager;
 use Doornock\Model\DoorModule\DeviceRepository;
+use Doornock\Model\DoorModule\NodeRepository;
 
 class NodePresenter extends BasePresenter
 {
@@ -16,21 +17,34 @@ class NodePresenter extends BasePresenter
 	/** @var DeviceRepository */
 	public $deviceRepository;
 
+	/** @var NodeRepository */
+	public $nodeRepository;
+
+
 	/**
 	 * NodePresenter constructor.
 	 * @param DeviceRepository $deviceRepository
+	 * @param NodeRepository $nodeRepository
 	 */
-	public function __construct(DeviceRepository $deviceRepository)
+	public function __construct(DeviceRepository $deviceRepository, NodeRepository $nodeRepository)
 	{
 		parent::__construct();
 		$this->deviceRepository = $deviceRepository;
+		$this->nodeRepository = $nodeRepository;
 	}
 
 
-	public function actionDevicePermission($device_id)
+	public function actionDevicePermission($device_id, $node_id = NULL)
 	{
 		if ($device_id === NULL) {
 			$this->sendRequestError(400, 'Missing device_id parameter');
+		}
+
+		if ($node_id !== NULL) {
+			$node = $this->nodeRepository->getById($node_id);
+			if (!$node) {
+				$this->sendRequestError(404, 'Node by node_id not found');
+			}
 		}
 
 		$device = $this->deviceRepository->find($device_id); /** @var $device Device */
@@ -51,7 +65,7 @@ class NodePresenter extends BasePresenter
 		$this->sendSuccess(array(
 			'public_key' => $device->getPublicKey(),
 			'door_with_access' => $doorsId
-		));
+		), isset($node) ? $node->getApiKey() : NULL);
 	}
 }
 
