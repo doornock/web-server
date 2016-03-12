@@ -29,8 +29,7 @@ class HttpOpenDoor implements Opener
 
 		$data = Json::encode(array(
 			'door_id' => (string) $door->getId(),
-			'opening_time' => $door->getOpeningTime(),
-			'timestamp' => time()
+			'opening_time' => $door->getOpeningTime()
 		));
 
 		return $this->send(
@@ -78,7 +77,8 @@ class HttpOpenDoor implements Opener
 	 */
 	private function hmacHeader($apiKey, $data)
 	{
-		return hash_hmac('sha256', $data, $apiKey);
+		$time = time();
+		return $time . ' ' . hash_hmac('sha256', $time . "|" . $data, $apiKey);
 	}
 
 }
