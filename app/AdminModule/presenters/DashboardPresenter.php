@@ -6,10 +6,13 @@ namespace Doornock\AdminModule\Presenters;
 use Doornock\Model\DoorModule\NodeExecuteCommandException;
 use Doornock\Model\DoorModule\SiteInformation;
 use Doornock\Model\DoorModule\WebAccessManager;
+use Nextras\Application\UI\SecuredLinksPresenterTrait;
 use Tracy\Debugger;
 
 class DashboardPresenter extends BasePresenter
 {
+	use SecuredLinksPresenterTrait;
+
 	/** @var WebAccessManager @inject */
 	public $webAccessManager;
 
