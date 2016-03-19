@@ -58,14 +58,14 @@ class DeviceManager implements ApiKeyGenerator
 
 	/**
 	 * Change RSA keys by API key to identify device
-	 * @param string $apiKey device's API key
+	 * @param string $deviceId device's id
 	 * @param string $publicKey public RSA key encoded in base64
 	 * @param string|null $privateKey private RSA key encoded in base64
 	 * @throws ApiKeyNotFoundException if api key is not found
 	 */
-	public function updateRSAKeyDeviceByApi($apiKey, $publicKey, $privateKey = NULL)
+	public function updateRSAKeyDeviceByApi($deviceId, $publicKey, $privateKey = NULL)
 	{
-		$device = $this->deviceRepository->getDeviceByApiKey($apiKey);
+		$device = $this->deviceRepository->getDeviceById($deviceId);
 		$device->changeRSAKeys($publicKey, $privateKey);
 
 		$this->entityManager->flush();
@@ -81,10 +81,7 @@ class DeviceManager implements ApiKeyGenerator
 	 */
 	public function blockDeviceById($deviceId, User $mustBeUser = NULL)
 	{
-		$device = $this->deviceRepository->find($deviceId); /** @var $device Device */
-		if ($device === NULL) {
-			throw new DeviceNotFoundException($deviceId);
-		}
+		$device = $this->deviceRepository->getDeviceById($deviceId);
 		if ($mustBeUser !== NULL && $device->getOwner()->getId() === $mustBeUser->getId()) {
 			return FALSE;
 		}

@@ -2,8 +2,10 @@
 
 namespace Doornock\ApiModule\Presenters;
 
+use Doornock\ApiModule\Model\AuthenticationException;
+use Doornock\ApiModule\Model\DeviceAuthenticator;
 use Doornock\Model\DoorModule\Device;
-use Doornock\Model\DoorModule\DeviceAccessManager;
+use Doornock\Model\DoorModule\DeviceAccessFasade;
 use Doornock\Model\DoorModule\DeviceManager;
 use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\UserModule\User;
@@ -18,7 +20,7 @@ class DevicePresenter extends BasePresenter
 	private $deviceRepository;
 
 
-	/** @var DeviceAccessManager */
+	/** @var DeviceAccessFasade */
 	private $deviceAccessManager;
 
 
@@ -29,16 +31,20 @@ class DevicePresenter extends BasePresenter
 	/** @var UserRepository */
 	private $userRepository;
 
+
+	/** @var DeviceAuthenticator */
+	private $deviceAuthenticator;
+
 	/**
 	 * DevicePresenter constructor.
 	 * @param DeviceRepository $deviceRepository
-	 * @param DeviceAccessManager $deviceAccessManager
+	 * @param DeviceAccessFasade $deviceAccessManager
 	 * @param DeviceManager $deviceManager
 	 * @param UserRepository $userRepository
 	 */
 	public function __construct(
 		DeviceRepository $deviceRepository,
-		DeviceAccessManager $deviceAccessManager,
+		DeviceAccessFasade $deviceAccessManager,
 		DeviceManager $deviceManager,
 		UserRepository $userRepository
 	)
@@ -51,42 +57,30 @@ class DevicePresenter extends BasePresenter
 	}
 
 
-	/**
-	 * @todo remove
-	 * @deprecated see Node:DevicePermission
-	 * @param string $deviceId
-	 */
-	public function actionGetPublicKey($deviceId)
+	public function startup()
 	{
-		$device = $this->deviceRepository->find($deviceId); /** @var $device Device */
-		$this->sendResponse(
-			new Nette\Application\Responses\TextResponse(
-				$device->getPublicKey()
-			)
-		);
+		parent::startup();
+		$this->deviceAuthenticator = new DeviceAuthenticator($this->deviceRepository);
 	}
 
 
 	/**
 	 * Register device and return API key
-	 * @param string $username
-	 * @param string $password
 	 */
-	public function actionRegister($username, $password)
+	public function actionRegister()
 	{
-		if ($username === NULL) {
-			$this->sendRequestError(400, 'Missing username parameter');
-		}
+		$params = $this->getRequestPostParams();
 
-		$description = $this->request->getPost('description');
-		$publicKey = $this->request->getPost('public_key');
-
-		$user = $this->userRepository->getByUsername($username);
-		if (!$user || !$user->verifyPassword($password)) {
+		$user = $this->userRepository->getByUsername($params->requireParamString('username'));
+		if (!$user || !$user->verifyPassword($params->requireParamString('password'))) {
 			$this->sendRequestError(401, "Bad username or password");
 		}
 
-		$device = $this->deviceManager->addDeviceRSA($user, $publicKey, $description); /** @var $device Device */
+		$device = $this->deviceManager->addDeviceRSA(
+			$user,
+			$params->requireParamString('public_key'),
+			$params->requireParamString('description')
+		); /** @var $device Device */
 
 		$this->sendSuccess(array(
 			'device_id' => $device->getId(),
@@ -98,21 +92,21 @@ class DevicePresenter extends BasePresenter
 
 	/**
 	 * Method update information about device
-	 * @param $api_key
-	 * @throws \Doornock\Model\DoorModule\ApiKeyNotFoundException
 	 */
-	public function actionUpdate($api_key)
+	public function actionUpdate()
 	{
-		if ($api_key === NULL) {
-			$this->sendRequestError(400, 'Missing api_key parameter');
+		$params = $this->getRequestPostParams();
+
+		try {
+			$device = $this->deviceAuthenticator->authenticate($this->getHttpRequest());
+			$this->deviceManager->updateRSAKeyDeviceByApi(
+				$device->getId(),
+				$params->requireParamString('public_key')
+			);
+			$this->sendSuccess();
+		} catch (AuthenticationException $e) {
+			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
 		}
-
-		$description = $this->request->getPost('description');
-		$publicKey = $this->request->getPost('public_key');
-
-		$this->deviceManager->updateRSAKeyDeviceByApi($api_key, $publicKey, $description);
-
-		$this->sendSuccess();
 	}
 
 

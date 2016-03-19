@@ -1,6 +1,6 @@
 <?php
 
-namespace Doornock\Forms;
+namespace Doornock\FrontModule\Forms;
 
 use Nette;
 use Nette\Application\UI\Form;

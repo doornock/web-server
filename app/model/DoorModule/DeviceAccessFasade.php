@@ -11,7 +11,7 @@ use Nette;
 /**
  * Service layer communicates with devices with API key
  */
-class DeviceAccessManager
+class DeviceAccessFasade
 {
 
 	/** @var DeviceRepository */
@@ -40,29 +40,23 @@ class DeviceAccessManager
 
 	/**
 	 * Find doors which has device access
-	 * @param string $apiKey
+	 * @param Device $device
 	 * @return Door[]
-	 * @throws ApiKeyNotFoundException if api key is not found
-	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
-	public function findDoorWithAccess($apiKey)
+	public function findDoorWithAccess(Device $device)
 	{
-		$device = $this->getDevice($apiKey);
 		return $this->accessManager->findDoorWithAccess($device->getOwner());
 	}
 
 
 	/**
 	 * Open door
-	 * @param string $apiKey device api key
+	 * @param Device $device
 	 * @param string $doorId
 	 * @return bool if successful, if no access return false
-	 * @throws ApiKeyNotFoundException if api key is not found
-	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
 	 */
-	public function openDoor($apiKey, $doorId)
+	public function openDoor(Device $device, $doorId)
 	{
-		$device = $this->getDevice($apiKey);
 		$doors = $this->accessManager->findDoorWithAccess($device->getOwner());
 
 		foreach ($doors as $door) { /** @var $door Door */
@@ -72,23 +66,6 @@ class DeviceAccessManager
 		}
 
 		return FALSE;
-	}
-
-
-	/**
-	 * Find device by API key, or throws exception
-	 * @param string $apiKey
-	 * @return Device
-	 * @throws ApiKeyNotFoundException if not found
-	 * @throws DeviceIsBlockedException when device is blocked and cannot do commands
-	 */
-	private function getDevice($apiKey)
-	{
-		$device = $this->deviceRepository->getDeviceByApiKey($apiKey);
-		if ($device->isBlocked()) {
-			throw new DeviceIsBlockedException($device);
-		}
-		return $device;
 	}
 
 

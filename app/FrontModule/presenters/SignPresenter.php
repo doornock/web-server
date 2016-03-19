@@ -2,8 +2,8 @@
 
 namespace Doornock\FrontModule\Presenters;
 
+use Doornock\FrontModule\Forms\SignFormFactory;
 use Nette;
-use Doornock\Forms\SignFormFactory;
 
 
 class SignPresenter extends BasePresenter

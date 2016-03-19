@@ -1,13 +1,15 @@
 <?php
 
-namespace Doornock\Model\DoorModule;
+namespace Doornock\ApiModule\Model;
 
 
+use Doornock\Model\DoorModule\Door;
+use Doornock\Model\DoorModule\NodeExecuteCommandException;
+use Doornock\Model\DoorModule\Opener;
 use GuzzleHttp\Client;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use Nette\Utils\Validators;
-use Tracy\Debugger;
 
 class HttpOpenDoor implements Opener
 {

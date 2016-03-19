@@ -47,10 +47,9 @@ latte:
 services:
 	- Doornock\Model\DoorModule\SiteInformation(%site.guid%, %site.title%)
 	- Doornock\Model\DoorModule\YamlGenerator
-	- Doornock\Forms\SignFormFactory
 	router: Doornock\RouterFactory::createRouter
 
-	- Doornock\Model\DoorModule\HttpOpenDoor
+	- Doornock\ApiModule\Model\HttpOpenDoor
 
 	- Doornock\Model\UserModule\PermissionStandard
 	- Doornock\Model\UserModule\Roles
@@ -60,15 +59,17 @@ services:
 
 	- Doornock\Model\DoorModule\DeviceRepository
 	- Doornock\Model\DoorModule\DeviceManager
-	- Doornock\Model\DoorModule\DeviceAccessManager
 
 	- Doornock\Model\DoorModule\NodeRepository
 	- Doornock\Model\DoorModule\NodeManager
 
 	- Doornock\Model\DoorModule\DoorRepository
+
 	- Doornock\Model\DoorModule\AccessManager
+	- Doornock\Model\DoorModule\DeviceAccessFasade
 	- Doornock\Model\DoorModule\WebAccessManager
 
+	- Doornock\FrontModule\Forms\SignFormFactory
 	- Doornock\AdminModule\Forms\ChangeRoleFormFactory
 	- Doornock\AdminModule\Forms\ChangePasswordFormFactory
 	- Doornock\AdminModule\Forms\AddUserFormFactory

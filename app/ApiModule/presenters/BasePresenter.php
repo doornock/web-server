@@ -3,11 +3,36 @@
 namespace Doornock\ApiModule\Presenters;
 
 use Doornock\ApiModule\JsonApiResponse;
+use Doornock\ApiModule\JsonRequestParameters;
 use Nette\Application\UI\Presenter;
 use Nette\Application\Responses\JsonResponse;
+use Nette\Http\IRequest;
+use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 
 abstract class BasePresenter extends Presenter
 {
+	/** @var JsonRequestParameters */
+	private $jsonRequestParams;
+
+	protected function startup()
+	{
+		parent::startup();
+		$this->jsonRequestParams = new JsonRequestParameters($this->getHttpRequest(), function ($key) {
+			$this->sendRequestError(400, 'Missing ' . $key . ' parameter');
+		});
+	}
+
+
+	/**
+	 * Input data from post parsed
+	 * @return JsonRequestParameters
+	 */
+	protected function getRequestPostParams()
+	{
+		return $this->jsonRequestParams;
+	}
+
 
 
 	/**

@@ -9,6 +9,21 @@ class DeviceRepository extends EntityDao
 {
 
 	/**
+	 * Find device by id, or throws exception
+	 * @param int $deviceId
+	 * @return Device
+	 * @throws DeviceNotFoundException
+	 */
+	public function getDeviceById($deviceId)
+	{
+		$device = $this->find($deviceId); /** @var $device Device */
+		if ($device === NULL) {
+			throw new DeviceNotFoundException($deviceId);
+		}
+		return $device;
+	}
+
+	/**
 	 * Find device by API key, or throws exception
 	 * @param string $apiKey
 	 * @return Device

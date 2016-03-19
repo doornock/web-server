@@ -4,7 +4,7 @@ namespace Doornock\ApiModule\Presenters;
 
 use Doornock\Model\DoorModule\AccessManager;
 use Doornock\Model\DoorModule\Device;
-use Doornock\Model\DoorModule\DeviceAccessManager;
+use Doornock\Model\DoorModule\DeviceAccessFasade;
 use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\DoorModule\NodeRepository;
 
