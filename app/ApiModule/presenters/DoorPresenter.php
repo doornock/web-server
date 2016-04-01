@@ -60,11 +60,8 @@ class DoorPresenter extends BasePresenter
 	{
 		try {
 			$params = $this->getRequestPostParams();
-			if (!isset($params['door_id'])) {
-				$this->sendRequestError(400, 'Missing door_id parameter');
-			}
 			$device = $this->deviceAuthenticator->authenticate($this->getHttpRequest());
-			if ($this->deviceManager->openDoor($device, $params['door_id'])) {
+			if ($this->deviceManager->openDoor($device, $params->requireParamString('door_id'))) {
 				$this->sendSuccess();
 			} else {
 				$this->sendRequestError(400, "Door is not working or not found you have no access");
