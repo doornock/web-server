@@ -66,7 +66,7 @@ services:
 	- Doornock\Model\DoorModule\DoorRepository
 
 	- Doornock\Model\DoorModule\AccessManager
-	- Doornock\Model\DoorModule\DeviceAccessFasade
+	- Doornock\Model\DoorModule\DeviceAccessManager
 	- Doornock\Model\DoorModule\WebAccessManager
 
 	- Doornock\FrontModule\Forms\SignFormFactory

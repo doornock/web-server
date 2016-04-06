@@ -11,7 +11,7 @@ use Nette;
 /**
  * Service layer communicates with devices with API key
  */
-class DeviceAccessFasade
+class DeviceAccessManager
 {
 
 	/** @var DeviceRepository */

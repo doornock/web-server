@@ -4,7 +4,7 @@ namespace Doornock\ApiModule\Presenters;
 
 use Doornock\ApiModule\Model\AuthenticationException;
 use Doornock\ApiModule\Model\DeviceAuthenticator;
-use Doornock\Model\DoorModule\DeviceAccessFasade;
+use Doornock\Model\DoorModule\DeviceAccessManager;
 use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\DoorModule\Door;
 use Nette;
@@ -13,7 +13,7 @@ use Nette;
 class DoorPresenter extends BasePresenter
 {
 
-	/** @var DeviceAccessFasade */
+	/** @var DeviceAccessManager */
 	private $deviceManager;
 
 
@@ -22,10 +22,10 @@ class DoorPresenter extends BasePresenter
 
 	/**
 	 * DoorPresenter constructor.
-	 * @param DeviceAccessFasade $deviceManager
+	 * @param DeviceAccessManager $deviceManager
 	 * @param DeviceRepository $deviceRepository
 	 */
-	public function __construct(DeviceAccessFasade $deviceManager, DeviceRepository $deviceRepository)
+	public function __construct(DeviceAccessManager $deviceManager, DeviceRepository $deviceRepository)
 	{
 		parent::__construct();
 		$this->deviceManager = $deviceManager;
