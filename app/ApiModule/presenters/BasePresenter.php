@@ -18,7 +18,7 @@ abstract class BasePresenter extends Presenter
 	protected function startup()
 	{
 		parent::startup();
-		$this->jsonRequestParams = new JsonRequestParameters($this->getHttpRequest(), function ($key) {
+		$this->jsonRequestParams = new JsonRequestParameters($this->getHttpRequest(), function ($jrp, $key) {
 			$this->sendRequestError(400, 'Missing ' . $key . ' parameter');
 		});
 	}
