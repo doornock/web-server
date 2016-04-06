@@ -62,7 +62,7 @@ class HttpOpenDoor implements Opener
 			]);
 			if ($response->getStatusCode() === 200) {
 				$body = Json::decode($response->getBody());
-				return $body->status === 'ok';
+				return $body->status === 'OK';
 			}
 			return FALSE;
 		} catch (\Exception $e) {
