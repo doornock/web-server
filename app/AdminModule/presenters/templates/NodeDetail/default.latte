@@ -34,6 +34,11 @@
 					<p class="alert alert-warning" n:foreach="$form['title']->getErrors() as $error">{$error}</p>
 					{input endpoint_url, class => "form-control"}
 				</div>
+				<div class="form-group">
+					{label generate_api_key /}
+					<p class="alert alert-warning" n:foreach="$form['generate_api_key']->getErrors() as $error">{$error}</p>
+					{input generate_api_key, class => "form-control"}
+				</div>
 			</div>
 			<div class="box-footer">
 				{input send, class => "btn btn-info pull-right"}
