@@ -3,7 +3,7 @@
 namespace Doornock\ApiModule\Presenters;
 
 use Doornock\ApiModule\Model\AuthenticationException;
-use Doornock\ApiModule\Model\DeviceAuthenticator;
+use Doornock\ApiModule\Model\ApiAuthenticator;
 use Doornock\Model\DoorModule\DeviceAccessManager;
 use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\DoorModule\Door;
@@ -17,26 +17,29 @@ class DoorPresenter extends BasePresenter
 	private $deviceManager;
 
 
-	/** @var DeviceAuthenticator */
+	/** @var ApiAuthenticator */
 	private $deviceAuthenticator;
 
 	/**
 	 * DoorPresenter constructor.
 	 * @param DeviceAccessManager $deviceManager
-	 * @param DeviceRepository $deviceRepository
+	 * @param ApiAuthenticator $apiAuthenticator
 	 */
-	public function __construct(DeviceAccessManager $deviceManager, DeviceRepository $deviceRepository)
+	public function __construct(
+		DeviceAccessManager $deviceManager,
+		ApiAuthenticator $apiAuthenticator
+	)
 	{
 		parent::__construct();
 		$this->deviceManager = $deviceManager;
-		$this->deviceAuthenticator = new DeviceAuthenticator($deviceRepository);
+		$this->deviceAuthenticator = $apiAuthenticator;
 	}
 
 
 	public function actionList()
 	{
 		try {
-			$device = $this->deviceAuthenticator->authenticate($this->getHttpRequest());
+			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
 			$doors = $this->deviceManager->findDoorWithAccess($device);
 
 			$return = array();
@@ -49,7 +52,7 @@ class DoorPresenter extends BasePresenter
 				$return[] = $obj;
 			}
 
-			$this->sendSuccess($return);
+			$this->sendSuccess($return, $device->getApiKey());
 		} catch (AuthenticationException $e) {
 			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
 		}
@@ -60,9 +63,9 @@ class DoorPresenter extends BasePresenter
 	{
 		try {
 			$params = $this->getRequestPostParams();
-			$device = $this->deviceAuthenticator->authenticate($this->getHttpRequest());
+			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
 			if ($this->deviceManager->openDoor($device, $params->requireParamString('door_id'))) {
-				$this->sendSuccess();
+				$this->sendSuccess([], $device->getApiKey());
 			} else {
 				$this->sendRequestError(400, "Door is not working or not found you have no access");
 			}

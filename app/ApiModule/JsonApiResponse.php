@@ -45,7 +45,7 @@ class JsonApiResponse implements Nette\Application\IResponse
 			$time = time();
 			$httpResponse->addHeader(
 				"X-API-Sign-V1",
-				$time . ' ' . hash_hmac('sha256', $time . "|" . $data, $this->secretKey)
+				hash_hmac('sha256', $httpRequest->getHeader("X-API-Auth-V1") . "|" . $data, $this->secretKey)
 			);
 		}
 		echo $data;

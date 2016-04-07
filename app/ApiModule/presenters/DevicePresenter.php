@@ -3,21 +3,16 @@
 namespace Doornock\ApiModule\Presenters;
 
 use Doornock\ApiModule\Model\AuthenticationException;
-use Doornock\ApiModule\Model\DeviceAuthenticator;
+use Doornock\ApiModule\Model\ApiAuthenticator;
 use Doornock\Model\DoorModule\Device;
 use Doornock\Model\DoorModule\DeviceAccessManager;
 use Doornock\Model\DoorModule\DeviceManager;
-use Doornock\Model\DoorModule\DeviceRepository;
 use Doornock\Model\UserModule\UserRepository;
 use Nette;
 
 
 class DevicePresenter extends BasePresenter
 {
-
-	/** @var DeviceRepository */
-	private $deviceRepository;
-
 
 	/** @var DeviceAccessManager */
 	private $deviceAccessManager;
@@ -31,35 +26,34 @@ class DevicePresenter extends BasePresenter
 	private $userRepository;
 
 
-	/** @var DeviceAuthenticator */
+	/** @var ApiAuthenticator */
 	private $deviceAuthenticator;
 
 	/**
 	 * DevicePresenter constructor.
-	 * @param DeviceRepository $deviceRepository
 	 * @param DeviceAccessManager $deviceAccessManager
 	 * @param DeviceManager $deviceManager
 	 * @param UserRepository $userRepository
+	 * @param ApiAuthenticator $apiAuthenticator
 	 */
 	public function __construct(
-		DeviceRepository $deviceRepository,
 		DeviceAccessManager $deviceAccessManager,
 		DeviceManager $deviceManager,
-		UserRepository $userRepository
+		UserRepository $userRepository,
+		ApiAuthenticator $apiAuthenticator
 	)
 	{
 		parent::__construct();
-		$this->deviceRepository = $deviceRepository;
 		$this->deviceAccessManager = $deviceAccessManager;
 		$this->deviceManager = $deviceManager;
 		$this->userRepository = $userRepository;
+		$this->deviceAuthenticator = $apiAuthenticator;
 	}
 
 
 	public function startup()
 	{
 		parent::startup();
-		$this->deviceAuthenticator = new DeviceAuthenticator($this->deviceRepository);
 	}
 
 
@@ -84,7 +78,7 @@ class DevicePresenter extends BasePresenter
 		$this->sendSuccess(array(
 			'device_id' => $device->getId(),
 			'api_key' => $device->getApiKey()
-		));
+		), $device->getApiKey());
 
 	}
 
@@ -97,12 +91,12 @@ class DevicePresenter extends BasePresenter
 		$params = $this->getRequestPostParams();
 
 		try {
-			$device = $this->deviceAuthenticator->authenticate($this->getHttpRequest());
+			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
 			$this->deviceManager->updateRSAKeyDeviceByApi(
 				$device->getId(),
 				$params->requireParamString('public_key')
 			);
-			$this->sendSuccess();
+			$this->sendSuccess([], $device->getApiKey());
 		} catch (AuthenticationException $e) {
 			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
 		}

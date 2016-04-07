@@ -49,6 +49,8 @@ services:
 	- Doornock\Model\DoorModule\YamlGenerator
 	router: Doornock\RouterFactory::createRouter
 
+	- Doornock\ApiModule\Model\ApiAuthenticator
+
 	- Doornock\ApiModule\Model\HttpOpenDoor
 
 	- Doornock\Model\UserModule\PermissionStandard
