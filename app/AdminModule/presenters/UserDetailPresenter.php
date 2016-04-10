@@ -175,6 +175,7 @@ class UserDetailPresenter extends BasePresenter
 		} catch (DeviceNotFoundException $e) {
 			$this->flashMessage('Device not found', 'danger');
 		}
+		$this->redirect('this');
 	}
 
 
