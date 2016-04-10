@@ -91,7 +91,7 @@ class AccessDoorQuery extends QueryObject
 
 		$qb = $q->createQueryBuilder()
 			->from(Door::class, 'd')
-			->leftJoin(UserAccess::class, 'ua', 'WITH', 'd = ua.door')
+			->leftJoin(UserAccess::class, 'ua', 'WITH', 'd = ua.door AND ua.user = :user')
 			->leftJoin(User::class, 'u', 'WITH', 'u = ua.user AND u = :user')
 			->setParameter('user', $this->user);
 
