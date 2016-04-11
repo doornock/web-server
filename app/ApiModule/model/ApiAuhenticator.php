@@ -48,10 +48,6 @@ class ApiAuthenticator
 
 		$this->verifyHash($request, $device->getApiKey(), $match['timestamp'], $match['hash']);
 
-		if ($device->isBlocked()) {
-			throw new AuthenticationException(AuthenticationException::REASON_BLOCKED);
-		}
-
 		return $device;
 	}
 

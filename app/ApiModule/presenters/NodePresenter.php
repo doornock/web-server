@@ -73,7 +73,7 @@ class NodePresenter extends BasePresenter
 				'door_with_access' => $doorsId
 			), $node->getApiKey());
 		} catch (AuthenticationException $e) {
-			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
+			$this->sendRequestError(401, "Authentication failed", $e->getCode());
 		}
 	}
 }

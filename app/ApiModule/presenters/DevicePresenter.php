@@ -66,7 +66,7 @@ class DevicePresenter extends BasePresenter
 
 		$user = $this->userRepository->getByUsername($params->requireParamString('username'));
 		if (!$user || !$user->verifyPassword($params->requireParamString('password'))) {
-			$this->sendRequestError(401, "Bad username or password");
+			$this->sendRequestError(401, "Bad username or password", 20);
 		}
 
 		$device = $this->deviceManager->addDeviceRSA(
@@ -92,13 +92,18 @@ class DevicePresenter extends BasePresenter
 
 		try {
 			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
+
+			if ($device->isBlocked()) {
+				$this->sendRequestError(403, "Device is blocked", 10, NULL, $device->getApiKey());
+			}
+
 			$this->deviceManager->updateRSAKeyDeviceByApi(
 				$device->getId(),
 				$params->requireParamString('public_key')
 			);
 			$this->sendSuccess([], $device->getApiKey());
 		} catch (AuthenticationException $e) {
-			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
+			$this->sendRequestError("Authentication failed", $e->getCode());
 		}
 	}
 

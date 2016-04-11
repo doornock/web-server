@@ -25,7 +25,7 @@ class UserPresenter extends BasePresenter
 
 	public function actionRegisterRandom()
 	{
-		$this->sendRequestError(404, 'This feature is not available');
+		$this->sendRequestError(404, 'This feature is not available', -1);
 		/*
 		$data = $this->userManager->registerRandomCredentials();
 		$this->sendSuccess(array(

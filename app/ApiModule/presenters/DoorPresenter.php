@@ -40,6 +40,11 @@ class DoorPresenter extends BasePresenter
 	{
 		try {
 			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
+
+			if ($device->isBlocked()) {
+				$this->sendRequestError(403, "Device is blocked", 10, NULL, $device->getApiKey());
+			}
+
 			$doors = $this->deviceManager->findDoorWithAccess($device);
 
 			$return = array();
@@ -54,7 +59,7 @@ class DoorPresenter extends BasePresenter
 
 			$this->sendSuccess($return, $device->getApiKey());
 		} catch (AuthenticationException $e) {
-			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
+			$this->sendRequestError(401, "Authentication failed", $e->getCode());
 		}
 	}
 
@@ -64,13 +69,19 @@ class DoorPresenter extends BasePresenter
 		try {
 			$params = $this->getRequestPostParams();
 			$device = $this->deviceAuthenticator->authenticateDevice($this->getHttpRequest());
+
+			if ($device->isBlocked()) {
+				$this->sendRequestError(403, "Device is blocked", 10, NULL, $device->getApiKey());
+			}
+
+
 			if ($this->deviceManager->openDoor($device, $params->requireParamString('door_id'))) {
 				$this->sendSuccess([], $device->getApiKey());
 			} else {
 				$this->sendRequestError(400, "Door is not working or not found you have no access");
 			}
 		} catch (AuthenticationException $e) {
-			$this->sendRequestError($e->isAuthorizationProblem() ? 403 : 401, "Authentication failed", $e->getCode());
+			$this->sendRequestError(401, "Authentication failed", $e->getCode());
 		}
 	}
 

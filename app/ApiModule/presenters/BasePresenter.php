@@ -55,18 +55,19 @@ abstract class BasePresenter extends Presenter
 	 * @param string $message message to user what he do bad and how do it better
 	 * @param int $specificCode specify problem to code for better code result
 	 * @param mixed|null $data data which is possible to represented as JSON, and helps resolve problem
+	 * @param string|NULL $signKey if you want sign response by hmac256, fill this key
 	 */
-	public function sendRequestError($httpCode, $message, $specificCode = 0, $data = NULL)
+	public function sendRequestError($httpCode, $message, $specificCode = 0, $data = NULL, $signKey = NULL)
 	{
 		$this->getHttpResponse()->setCode($httpCode);
-		$this->sendResponse(new JsonResponse(array(
+		$this->sendResponse(new JsonApiResponse(array(
 			'status' => "ERROR",
 			'error' => array(
 				'code' => $specificCode,
 				'message' => $message
 			),
 			'data' => $data
-		)));
+		), $signKey));
 	}
 
 
