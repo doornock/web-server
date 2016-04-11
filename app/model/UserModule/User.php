@@ -45,7 +45,6 @@ class User implements IIdentity
 
 	/**
 	 * Which roles has user
-	 * @todo refactor to collection, for multiple groups
 	 *
 	 * @var string
 	 *

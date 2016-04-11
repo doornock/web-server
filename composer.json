@@ -51,7 +51,6 @@
 		"latte/latte": "~2.3.0",
 		"tracy/tracy": "~2.3.0",
 		"dg/adminer-custom": "~1.6",
-		"kdyby/rabbitmq": "^1.1",
 		"kdyby/doctrine": "^3.0",
 		"Majkl578/nette-identity-doctrine": "1.0.0",
 		"nextras/datagrid": "^2.1",
