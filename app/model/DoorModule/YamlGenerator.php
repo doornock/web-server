@@ -68,7 +68,9 @@ class YamlGenerator implements ConfigurationGenerator
 			$doors[] = array(
 				'id' => (string) $door->getId(),
 				'type' => 'gpio',
-				'gpio' => '# write gpio port by wiring pi!'
+				'gpio' => '# write gpio port by wiring pi!',
+				'closeIsZero' => true
+
 			);
 		}
 		$config['doors'] = $doors;
