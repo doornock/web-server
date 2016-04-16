@@ -5,6 +5,7 @@
 	<div class="box">
 		<div class="box-header">
 			<h3 class="box-title">Edit door {$door->getTitle()}</h3>
+			<span class="pull-right">Back to node <a n:href="NodeDetail:, nodeId => $door->getNode()->getId()">{$door->getNode()->getTitle()}</a></span>
 		</div>
 		<!-- /.box-header -->
 		<div class="box-body">

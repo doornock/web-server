@@ -33,14 +33,14 @@ class Node
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="title", type="string", length=255, nullable=true, options={"comment":"name of terminal"})
+	 * @ORM\Column(name="title", type="string", length=255, nullable=false, options={"comment":"name of terminal"})
 	 */
 	private $title;
 
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="available_nfc", type="boolean", nullable=false, options={"comment":"has NFC reader?"})
+	 * @ORM\Column(name="available_nfc", type="boolean", nullable=true, options={"comment":"has NFC reader?"})
 	 */
 	private $availableNfc;
 
