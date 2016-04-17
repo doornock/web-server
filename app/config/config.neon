@@ -24,9 +24,9 @@ extensions:
 
 
 doctrine:
-	user: root
-	password:
-	dbname: doornock
+	user: %database.user%
+	password: %database.password%
+	dbname: %database.dbname%
 	driver: pdo_mysql
 	metadata:
 		Doornock: %appDir%/model
