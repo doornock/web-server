@@ -22,7 +22,10 @@ class YamlGenerator implements ConfigurationGenerator
 	 * @param NodeRepository $nodeRepository
 	 * @param SiteInformation $siteInformation
 	 */
-	public function __construct(NodeRepository $nodeRepository, SiteInformation $siteInformation)
+	public function __construct(
+		NodeRepository $nodeRepository,
+		SiteInformation $siteInformation
+	)
 	{
 		$this->nodeRepository = $nodeRepository;
 		$this->siteInformation = $siteInformation;
@@ -56,7 +59,7 @@ class YamlGenerator implements ConfigurationGenerator
 		if ($node->getApiEndpointUrl()) {
 			$url = new Url($node->getApiEndpointUrl());
 			$config['httpApi'] = array(
-				'url' => $this->apiUrl ?: "# write here url server here server like http://mylock.home.com/api",
+				'url' => $this->apiUrl ?: "# write here url server here server like http://mylock.home.com",
 				'nodeId' => (string) $node->getId(),
 				'apiKey' => $node->getApiKey(),
 				'port' => $url->getPort()
@@ -69,7 +72,7 @@ class YamlGenerator implements ConfigurationGenerator
 				'id' => (string) $door->getId(),
 				'type' => 'gpio',
 				'gpio' => '# write gpio port by wiring pi!',
-				'closeIsZero' => true
+				'closeIsZero' => false
 
 			);
 		}
