@@ -5,6 +5,7 @@
 	<h1>
 		{$siteInfo->getTitle()}
 		<small>{$siteInfo->getGuid()}</small>
+		<p class="pull-right"><a class="btn btn-info qrUrlPopOver" data-qr-url="{link //:Front:Homepage:default}"><i class="fa fa-qrcode"></i> QR kód</a></p>
 	</h1>
 	{*
 	<ol class="breadcrumb">
@@ -24,7 +25,6 @@
 			<div class="small-box bg-green">
 				<div class="inner">
 					<h3>{$door->getTitle()}</h3>
-
 					<p>{$door->getNode()->getTitle()}</p>
 				</div>
 				<div class="icon">
@@ -39,6 +39,7 @@
 				<p>Your account have no access to any doors</p>
 			</div>
 		{/if}
+
 		{*
 		<div class="col-lg-3 col-xs-6">
 			<!-- small box -->
