@@ -27,7 +27,23 @@
 							<span class="input-group-addon">seconds</span>
 						</div>
 					</div>
-
+					<div class="form-group">
+						{label gpio_pin /}
+						<p class="alert alert-warning" n:foreach="$form['gpio_pin']->getErrors() as $error">{$error}</p>
+						{input gpio_pin, class => "form-control"}
+						<p class="help-block">Numbers are by <a href="http://wiringpi.com/pins/">Wiring Pi</a></p>
+					</div>
+					<div class="form-group">
+						{label gpio_closed_zero /}
+						<p class="alert alert-warning" n:foreach="$form['gpio_closed_zero']->getErrors() as $error">{$error}</p>
+						{input gpio_closed_zero, class => "form-control"}
+					</div>
+					<div class="form-group">
+						{label gpio_output /}
+						<p class="alert alert-warning" n:foreach="$form['gpio_output']->getErrors() as $error">{$error}</p>
+						{input gpio_output, class => "form-control"}
+						<p class="help-block">Be aware! If you choose bad option, it could destroy the Node device!</p>
+					</div>
 				</div>
 				<div class="box-footer">
 					{input send, class => "btn btn-info pull-right"}

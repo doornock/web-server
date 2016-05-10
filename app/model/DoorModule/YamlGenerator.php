@@ -50,11 +50,13 @@ class YamlGenerator implements ConfigurationGenerator
 		$config = array(
 			'site' => array(
 				'guid' => $this->siteInformation->getGuid(),
+				'title' => $this->siteInformation->getTitle(),
 			),
-			'nfc' => array(
-				'aid' => 'F0394148148111'
-			)
 		);
+
+		if ($node->isAvailableNfc()) {
+			$config['nfc']['aid'] = 'F0394148148111';
+		}
 
 		if ($node->getApiEndpointUrl()) {
 			$url = new Url($node->getApiEndpointUrl());
@@ -71,9 +73,9 @@ class YamlGenerator implements ConfigurationGenerator
 			$doors[] = array(
 				'id' => (string) $door->getId(),
 				'type' => 'gpio',
-				'gpio' => '# write gpio port by wiring pi!',
-				'closeIsZero' => false
-
+				'gpio' => $door->getGpioPin(),
+				'closeIsZero' => $door->isGpioClosedOnZero(),
+				'gpioOutput' => $door->isGpioOutput()
 			);
 		}
 		$config['doors'] = $doors;

@@ -4,6 +4,7 @@ namespace Doornock\ApiModule\Model;
 
 use Doornock\Model\DoorModule\Device;
 use Doornock\Model\DoorModule\DeviceRepository;
+use Doornock\Model\DoorModule\Node;
 use Doornock\Model\DoorModule\NodeRepository;
 use Nette\Http\IRequest;
 use Nette\Http\Request;
@@ -53,7 +54,7 @@ class ApiAuthenticator
 
 	/**
 	 * Authenticate device to process API requests
-	 * @return Device
+	 * @return Node
 	 * @throws AuthenticationException if part of process has any problem
 	 */
 	public function authenticateNode(IRequest $request)

@@ -54,10 +54,36 @@ class Door
 	 */
 	private $openingTime = 3000;
 
+
+	/**
+	 * Number of GPIO pin
+	 *
+	 * @ORM\Column(name="gpio_pin", type="integer", nullable=false, options={"comment":"Number of pin"})
+	 */
+	private $gpioPin;
+
+
+	/**
+	 * Doors in closed on log. zero on GPIO, is true, or false?
+	 *
+	 * @ORM\Column(name="gpio_closed_on_zero", type="boolean", options={"comment":"GPIO is default on log. 0 or 1"})
+	 * @var bool
+	 */
+	private $gpioClosedOnZero = FALSE;
+
+
+	/**
+	 * Doors in closed on log. zero on GPIO, is true, or false?
+	 *
+	 * @ORM\Column(name="gpio_is_output", type="boolean", options={"comment":"GPIO is output"})
+	 * @var bool
+	 */
+	private $gpioIsOutput = TRUE;
+
+
 	/**
 	 * Door constructor.
 	 * @param Node $node which node control door
-	 * @param string $code identifier on node
 	 * @param string|NULL $title human readable name
 	 */
 	public function __construct(Node $node, $title = NULL)
@@ -108,6 +134,36 @@ class Door
 
 
 	/**
+	 * Get GPIO pin number
+	 * @return int
+	 */
+	public function getGpioPin()
+	{
+		return $this->gpioPin;
+	}
+
+
+	/**
+	 * Doors in closed on log. zero on GPIO, is true, or false?
+	 * @return bool
+	 */
+	public function isGpioClosedOnZero()
+	{
+		return $this->gpioClosedOnZero;
+	}
+
+
+	/**
+	 * Is gpio pin output?
+	 * @return boolean
+	 */
+	public function isGpioOutput()
+	{
+		return $this->gpioIsOutput;
+	}
+
+
+	/**
 	 * Opening time in milliseconds, it says how long a door will be unlocked after signal, default time is 3s
 	 * @param int $openingTime
 	 */
@@ -134,6 +190,23 @@ class Door
 	public function setNode(Node $node)
 	{
 		$this->node = $node;
+	}
+
+
+	/**
+	 * Setup gpio
+	 * @param int $pinNumber set GPIO pin number
+	 * @param bool $closedOnZero logic state when door is closed
+	 * @param bool $isOutput GPIO is output
+	 */
+	public function setGpio($pinNumber, $closedOnZero, $isOutput)
+	{
+		if (!(is_int($pinNumber) && $pinNumber >= 0)) {
+			throw new \InvalidArgumentException('GPIO pin has to be positive number');
+		}
+		$this->gpioPin = $pinNumber;
+		$this->gpioClosedOnZero = (bool) $closedOnZero;
+		$this->gpioIsOutput = (bool) $isOutput;
 	}
 
 

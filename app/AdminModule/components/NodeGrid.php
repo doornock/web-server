@@ -29,7 +29,7 @@ class NodeGridFactory extends Nette\Object
 		$grid->addColumn('id', 'Id')
 			->enableSort();
 		$grid->addColumn('title', 'Name');
-		//$grid->addColumn('availableNfc', 'NFC reader');
+		$grid->addColumn('availableNfc', 'NFC reader');
 		$grid->addColumn('doors', 'Doors');
 		$grid->setFilterFormFactory(function () {
 			$form = new Nette\Forms\Container;

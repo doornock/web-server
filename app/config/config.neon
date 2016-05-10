@@ -47,11 +47,13 @@ latte:
 services:
 	- Doornock\Model\DoorModule\SiteInformation(%site.guid%, %site.title%)
 	- Doornock\Model\DoorModule\YamlGenerator
+
 	router: Doornock\RouterFactory::createRouter
 
 	- Doornock\ApiModule\Model\ApiAuthenticator
 
 	- Doornock\ApiModule\Model\HttpOpenDoor
+	- Doornock\ApiModule\Model\HttpRestartNode
 
 	- Doornock\Model\UserModule\PermissionStandard
 	- Doornock\Model\UserModule\Roles

@@ -34,6 +34,15 @@ class DoorFormFactory extends Object
 		$form->addText('title', 'Title')
 			->addRule(Form::FILLED, 'Please fill title');
 
+		$freeGpio = $this->nodeManager->getFreeGpio($node);
+		if ($door != NULL) $freeGpio[] = $door->getGpioPin();
+		$freeGpio = array_combine($freeGpio, $freeGpio);
+
+		$form->addSelect('gpio_pin', 'GPIO pin', $freeGpio)
+			->setRequired("GPIO pin must be selected, if select is empty, you cannot create next door");
+		$form->addCheckbox('gpio_closed_zero', 'Doors is closed when GPIO is on logic zero');
+		$form->addCheckbox('gpio_output', 'GPIO is output')->setDefaultValue(TRUE);
+
 		$form->addText('opening_time', 'Opening time in seconds (only number)')
 			->addRule(Form::NUMERIC, 'Opening time must be only number (without "s", etc.)')
 			->addRule(Form::RANGE, 'Opening time must be 1s to 30s', array(1, 30));
@@ -44,15 +53,24 @@ class DoorFormFactory extends Object
 			$form->setDefaults(array(
 				'door_id' => $door->getId(),
 				'title' => $door->getTitle(),
-				'opening_time' => $door->getOpeningTime() / 1000
+				'opening_time' => $door->getOpeningTime() / 1000,
+				'gpio_pin' => $door->getGpioPin(),
+				'gpio_closed_zero' => $door->isGpioClosedOnZero(),
+				'gpio_output' => $door->isGpioOutput()
 			));
 		}
 
 		$form->onSuccess[] = function (Form $form, $values) use ($node, $onSuccess) {
+			$gpioConfig = array(
+				'pin' => $values->gpio_pin,
+				'closed_zero' => $values->gpio_closed_zero,
+				'output' => $values->gpio_output
+			);
+
 			if ($values->door_id) {
-				$door = $this->nodeManager->updateDoor($values->door_id, $values->title, $values->opening_time);
+				$door = $this->nodeManager->updateDoor($values->door_id, $values->title, $values->opening_time, $gpioConfig);
 			} else {
-				$door = $this->nodeManager->addDoor($node, $values->title, $values->opening_time);
+				$door = $this->nodeManager->addDoor($node, $values->title, $values->opening_time, $gpioConfig);
 			}
 			if ($onSuccess !== NULL) {
 				$onSuccess($form, $door);

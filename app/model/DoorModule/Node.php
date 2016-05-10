@@ -127,7 +127,7 @@ class Node
 
 	/**
 	 * Returns attached door
-	 * @return array
+	 * @return array[Door]
 	 */
 	public function getDoors()
 	{

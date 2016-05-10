@@ -44,15 +44,17 @@ class NodeManager implements ApiKeyGenerator
 	 * Add new node and register them doors
 	 * @param string $title
 	 * @param string $urlEndpoint
+	 * @param bool $availableNfc
 	 * @param array[doorId=>title] $doors
 	 * @return Node
 	 */
-	public function addNode($title, $urlEndpoint, array $doors = array())
+	public function addNode($title, $urlEndpoint, $availableNfc, array $doors = array())
 	{
 		$node = new Node();
 		$node->setTitle($title);
 		$node->regenerateApiKey($this);
 		$node->setApiEndpointUrl($urlEndpoint);
+		$node->setAvailabilityNfc($availableNfc);
 		$this->entityManager->persist($node);
 
 		foreach ($doors as $title) {
@@ -71,12 +73,14 @@ class NodeManager implements ApiKeyGenerator
 	 * @param Node $node
 	 * @param string $title
 	 * @param string $endPointUrl
+	 * @param bool $availableNfc
 	 * @param bool $regenerateApi if is true, API key will be regenerated!
 	 */
-	public function updateNode(Node $node, $title, $endPointUrl, $regenerateApi = FALSE)
+	public function updateNode(Node $node, $title, $endPointUrl, $availableNfc, $regenerateApi = FALSE)
 	{
 		$node->setTitle($title);
 		$node->setApiEndpointUrl($endPointUrl);
+		$node->setAvailabilityNfc($availableNfc);
 		if ($regenerateApi) {
 			$node->regenerateApiKey($this);
 		}
@@ -89,13 +93,17 @@ class NodeManager implements ApiKeyGenerator
 	 * @param Node $node
 	 * @param string $title
 	 * @param int $openingTime opening time in seconds
+	 * @param array[pin, closed_zero, output] $gpioConfiguration
+	 * @return Door
 	 */
-	public function addDoor(Node $node, $title, $openingTime)
+	public function addDoor(Node $node, $title, $openingTime, array $gpioConfiguration)
 	{
 		$door = new Door($node, $title);
 		$door->setDefaultOpeningTime((int) $openingTime * 1000);
+		$this->changeGpio($door, $gpioConfiguration);
 		$this->entityManager->persist($door);
 		$this->entityManager->flush();
+		return $door;
 	}
 
 
@@ -104,17 +112,21 @@ class NodeManager implements ApiKeyGenerator
 	 * @param int $doorId
 	 * @param string $title
 	 * @param float $openingTime in seconds
+	 * @param array[pin, closed_zero, output] $gpioConfiguration
+	 * @return Door
 	 * @throws DoorIdNotFoundException
 	 */
-	public function updateDoor($doorId, $title, $openingTime)
+	public function updateDoor($doorId, $title, $openingTime, $gpioConfiguration)
 	{
-		$door = $this->doorRepository->find($doorId);
+		$door = $this->doorRepository->find($doorId); /** @var $door Door */
 		if (!$door) {
 			throw new DoorIdNotFoundException($doorId);
 		}
 		$door->setTitle($title);
 		$door->setDefaultOpeningTime((int) $openingTime * 1000);
+		$this->changeGpio($door, $gpioConfiguration);
 		$this->entityManager->flush($door);
+		return $door;
 	}
 
 
@@ -134,6 +146,32 @@ class NodeManager implements ApiKeyGenerator
 	}
 
 
+	/**
+	 * Return unused GPIO pins
+	 * @return array
+	 */
+	public function getFreeGpio(Node $node)
+	{
+		$gpioAllowed = array(0, 2, 3, 4, 5);
+		$used = $this->doorRepository->findPairs(array(
+			'node' => $node,
+		), 'gpioPin');
+		return array_values(array_diff($gpioAllowed, $used));
+	}
+
+
+	/**
+	 * GPIO change configuration in entity
+	 * @param Door $door
+	 * @param array[pin, closed_zero, output] $gpioConfig
+	 */
+	private function changeGpio(Door $door, $gpioConfig)
+	{
+		if (count(array_diff_key(array("pin" => TRUE, "closed_zero" => TRUE, "output" => TRUE), $gpioConfig)) > 0) {
+			throw new \InvalidArgumentException('Missing one of parameter');
+		}
+		$door->setGpio($gpioConfig['pin'], $gpioConfig['closed_zero'], $gpioConfig['output']);
+	}
 
 
 	/**
@@ -167,5 +205,7 @@ class NodeManager implements ApiKeyGenerator
 		} while ($exists);
 		return $apiKey;
 	}
+
+
 
 }

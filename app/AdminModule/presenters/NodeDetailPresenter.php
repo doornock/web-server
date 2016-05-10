@@ -14,6 +14,7 @@ use Doornock\Model\DoorModule\NodeExecuteCommandException;
 use Doornock\Model\DoorModule\NodeManager;
 use Doornock\Model\DoorModule\NodeRepository;
 use Doornock\Model\DoorModule\Opener;
+use Doornock\Model\DoorModule\RestartNode;
 use Doornock\Model\DoorModule\YamlGenerator;
 use Nette\Forms\Form;
 use Nette\Http\IResponse;
@@ -35,6 +36,9 @@ class NodeDetailPresenter extends BasePresenter
 
 	/** @var Opener @inject */
 	public $opener;
+
+	/** @var RestartNode @inject */
+	public $restarter;
 
 	/** @var NodeRepository  */
 	private $nodeRepository;
@@ -95,7 +99,8 @@ class NodeDetailPresenter extends BasePresenter
 			$this->redirect('default');
 		}
 		$this['form'] = $this->doorFormFactory->create($this->node, function (Form $form) {
-			$this->flashMessage('Updated');
+			$this->flashMessage('Updated', 'success');
+			$this->flashMessage('Please restart node to reload config');
 			$form->setValues(array());
 			$this->redirect('default');
 		}, $door);
@@ -134,6 +139,27 @@ class NodeDetailPresenter extends BasePresenter
 	/**
 	 * @secured
 	 */
+	public function handleRestartNode()
+	{
+		try {
+			$this->restarter->restartNode($this->node);
+			$this->flashMessage('Node was restarted', 'success');
+			$this->redirect('this');
+		} catch (NodeExecuteCommandException $e) {
+			if (Debugger::$productionMode) {
+				Debugger::log($e);
+			} else {
+				throw $e;
+			}
+		}
+		$this->flashMessage('Node does not work', 'danger');
+		$this->redirect('this');
+	}
+
+
+	/**
+	 * @secured
+	 */
 	public function handleOpenDoor($doorId)
 	{
 		try {
@@ -166,7 +192,8 @@ class NodeDetailPresenter extends BasePresenter
 	public function createComponentAddDoorForm()
 	{
 		return $this->doorFormFactory->create($this->node, function (Form $form) {
-			$this->flashMessage('Updated');
+			$this->flashMessage('Updated', 'success');
+			$this->flashMessage('Please restart node to reload config');
 			$form->setValues(array());
 		});
 	}
@@ -175,7 +202,8 @@ class NodeDetailPresenter extends BasePresenter
 	public function createComponentEditNodeForm()
 	{
 		return $this->nodeFormFactory->create(function (Form $form) {
-			$this->flashMessage('Updated');
+			$this->flashMessage('Updated', 'success');
+			$this->flashMessage('Please restart node to reload config');
 		}, $this->node);
 	}
 

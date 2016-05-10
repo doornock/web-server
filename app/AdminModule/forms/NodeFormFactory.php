@@ -44,10 +44,9 @@ class NodeFormFactory extends Object
 		$form->addText('endpoint_url', 'Node URL')
 			->addRule(Form::URL, 'Node URL API is not valid (could be filled without http://)');
 
-		/*
-				$form->addCheckbox('nfc_available', 'Has NFC reader?')
-					->setDefaultValue(TRUE);
-		*/
+		$form->addCheckbox('nfc_available', 'Has NFC reader?')
+			->setDefaultValue(TRUE);
+
 		if ($node) {
 			$form->addCheckbox('generate_api_key', 'Generate new API key?');
 			$form->addSubmit('send', 'Update node');
@@ -61,12 +60,12 @@ class NodeFormFactory extends Object
 		}
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess, $node) {
 			if ($node !== NULL) {
-				$this->nodeManager->updateNode($node, $values->title, $values->endpoint_url, $values->generate_api_key);
+				$this->nodeManager->updateNode($node, $values->title, $values->endpoint_url, $values->nfc_available, $values->generate_api_key);
 				if ($onSuccess !== NULL) {
 					$onSuccess($form, $node);
 				}
 			} else {
-				$node = $this->nodeManager->addNode($values->title, $values->endpoint_url, array());
+				$node = $this->nodeManager->addNode($values->title, $values->endpoint_url, $values->nfc_available, array());
 				if ($onSuccess !== NULL) {
 					$onSuccess($form, $node);
 				}
